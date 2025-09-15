@@ -34,13 +34,13 @@ Menuist Bookmarks
 
 脚本可以自动为 `.webloc` 文件设置图标，根据网址的域名从 `icons` 目录中匹配对应的图标文件。
 
-### 方法1: 直接运行 Swift 脚本 (需要安装 Swift)
+1️⃣ 方法1: 直接运行 Swift 脚本 (需要安装 Swift)
 
 ```bash
 swift set_icons.swift
 ```
 
-### 方法2: 编译成二进制文件 (推荐)
+2️⃣ 方法2: 编译成二进制文件 (推荐)
 
 如果没有 swift 环境运行 swift 脚本，可以直接运行 `./set_icons` 命令文件设置文件图标
 

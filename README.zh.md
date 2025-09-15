@@ -1,6 +1,6 @@
 <div align="center" markdown="1">
   <br>
-  <sup>Using <a href="https://wangchujiang.com/#/app" target="_blank">my app</a> is also a way to <a href="https://wangchujiang.com/#/sponsor" target="_blank">support</a> me:</sup>
+  <sup>使用<a href="https://wangchujiang.com/#/app" target="_blank">我的应用</a>，也是对我的<a href="https://wangchujiang.com/#/sponsor" target="_blank">支持</a>：</sup>
   <br>
   <a target="_blank" href="https://apps.apple.com/app/Vidwall/6747587746" title="Vidwall for macOS"><img align="center" alt="Vidwall" height="52" width="52" src="https://github.com/user-attachments/assets/7b5df70a-ed91-4d4b-85be-f00e60a09ce9"></a>
   <a target="_blank" href="https://wangchujiang.com/mousio-hint/" title="Mousio Hint for macOS"><img align="center" alt="Mousio Hint" height="52" width="52" src="https://github.com/user-attachments/assets/3c0af128-0cef-44e5-a8db-4741dc5a6690"></a>
@@ -32,23 +32,23 @@
 </div>
 <hr>
 
-Menuist Bookmarks
+Menuist 书签
 ===
 
-[[中文](./README.zh.md)] 
+[[English](./README.md)]
 
-This project provides bookmark data for [Menuist](https://github.com/jaywcjlove/rightmenu-master). Simply add the `bookmarks` folder from this project to Menuist's common directories to quickly generate a website navigation menu for convenient access to frequently used websites.
+本项目提供了 [Menuist](https://github.com/jaywcjlove/rightmenu-master) 使用的书签数据。只需将本项目的 `bookmarks` 文件夹添加到 Menuist 的常用目录中，即可快速生成一个网站导航菜单，方便快速打开常用网站。
 
-The bookmarks in this project are stored using macOS and iOS system's `.webloc` file format, where each `.webloc` file is a shortcut pointing to a specific URL. By organizing websites into folders and combining them with Menuist's common directory navigation feature, you can quickly access organized website lists, creating a website navigation-like experience.
+项目中的书签使用 macOS 和 iOS 系统的 `.webloc` 文件格式存储，每个 `.webloc` 文件都是一个指向特定 URL 的快捷方式。通过文件夹对网站进行分类，再结合 Menuist 的常用目录导航功能，可以快速访问整理好的网站列表，实现类似网站导航的体验。
 
-## Directory Structure
+## 目录结构
 
 ```shell
-├── bookmarks/          # Store .webloc files (supports subfolders)
-│   ├── .menuistrc.     # Menuist configuration
+├── bookmarks/          # 存放 .webloc 文件（支持子文件夹）
+│   ├── .menuistrc.     # Menuist 配置
 │   ├── GitHub.webloc
 │   ├── Gmail.webloc
-│   ├── AI/             # Supports subfolders
+│   ├── AI/             # 支持子文件夹
 │   │   ├── ChatGPT.webloc
 │   │   ├── Claude.webloc
 │   │   └── ...
@@ -56,38 +56,35 @@ The bookmarks in this project are stored using macOS and iOS system's `.webloc` 
 │   │   ├── Facebook.webloc
 │   │   └── ...
 │   └── ...
-├── icons/              # Store icon files
+├── icons/              # 存放图标文件
 │   ├── github.com.icns
 │   ├── google.com.icns
 │   ├── chatgpt.com.icns
 │   └── ...
-├── set_icons.swift     # Swift source code
-├── build.sh           # Compilation script
-└── set_icons          # Compiled binary file
+├── set_icons.swift     # Swift 源码
+├── build.sh           # 编译脚本
+└── set_icons          # 编译后的二进制文件
 ```
 
-## Setting Icons for webloc Files
+## webloc 文件图标设置
 
-The script can automatically set icons for `.webloc` files by matching corresponding icon files from the `icons` directory based on the domain name of the URL.
+脚本可以自动为 `.webloc` 文件设置图标，根据网址的域名从 `icons` 目录中匹配对应的图标文件。
 
-1️⃣ Method 1: Run Swift script directly (requires Swift installation)
+1️⃣ 方法1: 直接运行 Swift 脚本 (需要安装 Swift)
 
 ```bash
 swift set_icons.swift
 ```
 
-2️⃣ Method 2: Compile to binary file (recommended)
+2️⃣ 方法2: 编译成二进制文件 (推荐)
 
-If you don't have a Swift environment to run the Swift script, you can directly run the `./set_icons` command file to set file icons.
+如果没有 swift 环境运行 swift 脚本，可以直接运行 `./set_icons` 命令文件设置文件图标
 
 ```bash
-# Compile
-./build.sh
-
-# Or manually compile to generate binary file
+# 手动编译，生成二进制文件
 swiftc -o set_icons set_icons.swift
 
-# Run
+# 运行
 ./set_icons
 ```
 

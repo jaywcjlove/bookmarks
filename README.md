@@ -80,10 +80,7 @@ swift set_icons.swift
 If you don't have a Swift environment to run the Swift script, you can directly run the `./set_icons` command file to set file icons.
 
 ```bash
-# Compile
-./build.sh
-
-# Or manually compile to generate binary file
+# Manual compilation to generate a binary file
 swiftc -o set_icons set_icons.swift
 
 # Run

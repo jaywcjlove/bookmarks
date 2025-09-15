@@ -62,6 +62,89 @@ func setFileIcon(filePath: String, iconPath: String) -> Bool {
     }
 }
 
+func processWeblocFile(filePath: String, relativePath: String, iconsDir: String) -> Bool {
+    // 从.webloc文件中提取URL
+    guard let urlString = extractURLFromWebloc(filePath: filePath) else {
+        print("⚠️  无法从 \(relativePath) 中提取URL")
+        print("")
+        return false
+    }
+    
+    print("🐝 \(relativePath) -> \(urlString)")
+    
+    // 提取域名
+    guard let domainName = extractDomainName(from: urlString) else {
+        print("⚠️  无法从URL中提取域名: \(urlString)")
+        print("")
+        return false
+    }
+    
+    print("🌐 域名: \(domainName)")
+    
+    // 查找对应的图标文件
+    var iconPath: String?
+    
+    // 优先查找 .icns 文件
+    let icnsPath = "\(iconsDir)/\(domainName).icns"
+    if FileManager.default.fileExists(atPath: icnsPath) {
+        iconPath = icnsPath
+    } else {
+        // 查找 .png 文件
+        let pngPath = "\(iconsDir)/\(domainName).png"
+        if FileManager.default.fileExists(atPath: pngPath) {
+            iconPath = pngPath
+        }
+    }
+    
+    if let iconPath = iconPath {
+        print("🔧 使用图标: \(URL(fileURLWithPath: iconPath).lastPathComponent)")
+        if setFileIcon(filePath: filePath, iconPath: iconPath) {
+            print("")
+            return true
+        }
+    } else {
+        print("⚠️  未找到域名 \(domainName) 对应的图标文件 (\(domainName).icns 或 \(domainName).png)")
+    }
+    print("")
+    return false
+}
+
+func processDirectory(path: String, iconsDir: String, basePath: String) -> (success: Int, total: Int) {
+    var successCount = 0
+    var totalCount = 0
+    
+    do {
+        let items = try FileManager.default.contentsOfDirectory(atPath: path)
+        
+        for item in items {
+            let itemPath = "\(path)/\(item)"
+            var isDirectory: ObjCBool = false
+            
+            if FileManager.default.fileExists(atPath: itemPath, isDirectory: &isDirectory) {
+                if isDirectory.boolValue {
+                    // 如果是目录，递归处理
+                    let relativePath = String(itemPath.dropFirst(basePath.count + 1))
+                    print("📂 处理文件夹: \(relativePath)")
+                    let result = processDirectory(path: itemPath, iconsDir: iconsDir, basePath: basePath)
+                    successCount += result.success
+                    totalCount += result.total
+                } else if item.hasSuffix(".webloc") {
+                    // 如果是.webloc文件，处理它
+                    totalCount += 1
+                    let relativePath = String(itemPath.dropFirst(basePath.count + 1))
+                    if processWeblocFile(filePath: itemPath, relativePath: relativePath, iconsDir: iconsDir) {
+                        successCount += 1
+                    }
+                }
+            }
+        }
+    } catch {
+        print("❌ 读取目录失败: \(path) - \(error.localizedDescription)")
+    }
+    
+    return (success: successCount, total: totalCount)
+}
+
 func main() {
     // 获取脚本所在目录
     let scriptPath = CommandLine.arguments[0]
@@ -85,70 +168,11 @@ func main() {
         exit(1)
     }
     
-    print("\n🚀 开始设置 webloc 文件图标...\n")
+    print("\n🚀 开始递归设置 webloc 文件图标...\n")
     
-    var successCount = 0
-    var totalCount = 0
+    let result = processDirectory(path: bookmarksDir, iconsDir: iconsDir, basePath: bookmarksDir)
     
-    do {
-        let files = try FileManager.default.contentsOfDirectory(atPath: bookmarksDir)
-        
-        for filename in files {
-            if filename.hasSuffix(".webloc") {
-                totalCount += 1
-                let weblocPath = "\(bookmarksDir)/\(filename)"
-                
-                // 从.webloc文件中提取URL
-                guard let urlString = extractURLFromWebloc(filePath: weblocPath) else {
-                    print("⚠️  无法从 \(filename) 中提取URL")
-                    print("")
-                    continue
-                }
-                
-                print("🔗 \(filename) -> \(urlString)")
-                
-                // 提取域名
-                guard let domainName = extractDomainName(from: urlString) else {
-                    print("⚠️  无法从URL中提取域名: \(urlString)")
-                    print("")
-                    continue
-                }
-                
-                print("🌐 域名: \(domainName)")
-                
-                // 查找对应的图标文件
-                var iconPath: String?
-                
-                // 优先查找 .icns 文件
-                let icnsPath = "\(iconsDir)/\(domainName).icns"
-                if FileManager.default.fileExists(atPath: icnsPath) {
-                    iconPath = icnsPath
-                } else {
-                    // 查找 .png 文件
-                    let pngPath = "\(iconsDir)/\(domainName).png"
-                    if FileManager.default.fileExists(atPath: pngPath) {
-                        iconPath = pngPath
-                    }
-                }
-                
-                if let iconPath = iconPath {
-                    print("🔧 使用图标: \(URL(fileURLWithPath: iconPath).lastPathComponent)")
-                    if setFileIcon(filePath: weblocPath, iconPath: iconPath) {
-                        successCount += 1
-                    }
-                } else {
-                    print("⚠️  未找到域名 \(domainName) 对应的图标文件 (\(domainName).icns 或 \(domainName).png)")
-                }
-                print("") // 空行分隔
-            }
-        }
-        
-        print("🎉 完成! 成功设置 \(successCount)/\(totalCount) 个文件的图标")
-        
-    } catch {
-        print("❌ 读取目录失败: \(error.localizedDescription)")
-        exit(1)
-    }
+    print("🎉 完成! 成功设置 \(result.success)/\(result.total) 个文件的图标")
 }
 
 // 运行主函数

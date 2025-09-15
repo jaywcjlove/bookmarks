@@ -22,3 +22,5 @@ package-lock.json
 *.ipr
 *.iws
 .idea/
+
+bookmarks/Icon?

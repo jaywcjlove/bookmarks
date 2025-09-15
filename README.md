@@ -9,6 +9,7 @@ Menuist Bookmarks
 
 ```shell
 ├── bookmarks/          # 存放 .webloc 文件（支持子文件夹）
+│   ├── .menuistrc.     # Menuist 配置
 │   ├── GitHub.webloc
 │   ├── Gmail.webloc
 │   ├── AI/             # 支持子文件夹

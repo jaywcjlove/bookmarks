@@ -1,3 +1,7 @@
+<p align="right">
+<a href="./README.zh.md">English</a>
+</p>
+
 <div align="center" markdown="1">
   <sup>使用<a href="https://wangchujiang.com/#/app" target="_blank">我的应用</a>，也是对我的<a href="https://wangchujiang.com/#/sponsor" target="_blank">支持</a>：</sup>
   <br>
@@ -34,8 +38,6 @@
 
 Menuist 书签
 ===
-
-[[English](./README.md)]
 
 本项目提供了 [Menuist](https://github.com/jaywcjlove/rightmenu-master) 使用的书签数据。只需将本项目的 `bookmarks` 文件夹添加到 Menuist 的常用目录中，即可快速生成一个网站导航菜单，方便快速打开常用网站。
 

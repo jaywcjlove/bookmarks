@@ -1,3 +1,7 @@
+<p align="right">
+<a href="./README.zh.md">中文</a>
+</p>
+
 <div align="center" markdown="1">
   <sup>Using <a href="https://wangchujiang.com/#/app" target="_blank">my app</a> is also a way to <a href="https://wangchujiang.com/#/sponsor" target="_blank">support</a> me:</sup>
   <br>
@@ -34,8 +38,6 @@
 
 Menuist Bookmarks
 ===
-
-[[中文](./README.zh.md)] 
 
 This project provides bookmark data for [Menuist](https://github.com/jaywcjlove/rightmenu-master). Simply add the `bookmarks` folder from this project to Menuist's common directories to quickly generate a website navigation menu for convenient access to frequently used websites.
 

@@ -81,9 +81,17 @@ Menuist 书签
 </plist>
 ```
 
-2️⃣ 添加书签图标：
+2️⃣ 添加书签图标
 
-将下载好的 `.icns` 图标放入 icons 目录，并以网址命名，例如 [`apple.com.icns`](./icons/apple.com.icns)。然后运行 [`./set_icons`](./set_icons) 命令，即可自动为 `Apple.webloc` 文件设置对应的图标。
+将下载好的 `.icns` 图标放入 [`icons`](./icons/) 目录，并以网址命名，例如 [`apple.com.icns`](./icons/apple.com.icns)。
+
+然后运行 [`./set_icons`](./set_icons) 命令，即可自动为 `Apple.webloc` 文件设置对应的图标。
+
+图标文件（`.icns`）可以通过以下方式获取或制作：
+
+- 从 [macOSicons](https://macosicons.com) 下载现成图标  
+- 使用 [Iconed](https://apps.apple.com/app/iconed/id6739444407) 自制应用图标  
+- 使用 [Iconize Folder](https://apps.apple.com/app/iconize-folder/id6478772538) 制作文件夹图标并导出 `.icns` 文件
 
 ## webloc 文件图标设置
 

@@ -81,10 +81,17 @@ The bookmarks in this project are stored using macOS and iOS system's `.webloc` 
 </plist>
 ```
 
-2️⃣ Add a bookmark icon:
+2️⃣ Add a Bookmark Icon
 
-Place the downloaded `.icns` file into the icons directory and name it after the website, for example [`apple.com.icns`](./icons/apple.com.icns).
-Then run the [`./set_icons`](./set_icons) command to automatically apply the icon to the [`Apple.webloc`](./bookmarks/Apple.webloc) file.
+Place the downloaded `.icns` icon file into the `icons` directory and name it after the website, for example [`apple.com.icns`](./icons/apple.com.icns).
+
+Then run the [`./set_icons`](./set_icons) command to automatically apply the icon to the `Apple.webloc` file.
+
+You can obtain or create `.icns` icon files in the following ways:
+
+- Download ready-made icons from [macOSicons](https://macosicons.com)  
+- Create custom app icons using [Iconed](https://apps.apple.com/app/iconed/id6739444407)  
+- Create folder icons and export them as `.icns` using [Iconize Folder](https://apps.apple.com/app/iconize-folder/id6478772538)
 
 ## Setting Icons for webloc Files
 

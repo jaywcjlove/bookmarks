@@ -1,8 +1,8 @@
 <p align="right">
-<a href="./README.zh.md">English</a>
+<a href="./README.md">English</a>
 </p>
 
-<div align="center" markdown="1">
+<div markdown="1">
   <sup>使用<a href="https://wangchujiang.com/#/app" target="_blank">我的应用</a>，也是对我的<a href="https://wangchujiang.com/#/sponsor" target="_blank">支持</a>：</sup>
   <br>
   <a target="_blank" href="https://github.com/jaywcjlove/vidwall-hub" title="Vidwall Hub for macOS"><img alt="Vidwall Hub" height="52" width="52" src="https://wangchujiang.com/appicon/vidwall-hub.png"></a>

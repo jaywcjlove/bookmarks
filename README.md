@@ -67,6 +67,25 @@ The bookmarks in this project are stored using macOS and iOS system's `.webloc` 
 └── set_icons          # Compiled binary file
 ```
 
+## Add a new bookmark
+
+1️⃣ In the bookmarks/ directory, create a text file named Apple.webloc (with the .webloc extension). Paste the following XML content into it, and edit the URL as needed.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+  <dict>
+    <key>URL</key>
+	  <string>https://www.apple.com/</string>
+  </dict>
+</plist>
+```
+
+2️⃣ Add a bookmark icon:
+
+Place the downloaded `.icns` file into the icons directory and name it after the website, for example [`apple.com.icns`](./icons/apple.com.icns).
+Then run the [`./set_icons`](./set_icons) command to automatically apply the icon to the [`Apple.webloc`](./bookmarks/Apple.webloc) file.
+
 ## Setting Icons for webloc Files
 
 The script can automatically set icons for `.webloc` files by matching corresponding icon files from the `icons` directory based on the domain name of the URL.

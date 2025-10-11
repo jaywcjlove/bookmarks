@@ -39,7 +39,7 @@
 Menuist 书签
 ===
 
-本项目提供了 [Menuist](https://github.com/jaywcjlove/rightmenu-master) 使用的书签数据。只需将本项目的 `bookmarks` 文件夹添加到 Menuist 的常用目录中，即可快速生成一个网站导航菜单，方便快速打开常用网站。
+本项目提供了 [Menuist](https://github.com/jaywcjlove/rightmenu-master) 使用的书签数据。只需将本项目的 `bookmarks` 文件夹添加到 Menuist 的`常用目录`中，即可快速生成一个网站导航菜单，方便快速打开常用网站。
 
 ![Menuist Screenshots](./assets/menuist-screenshots.png)
 
@@ -66,6 +66,24 @@ Menuist 书签
 ├── build.sh           # 编译脚本
 └── set_icons          # 编译后的二进制文件
 ```
+
+## 添加新的书签
+
+1️⃣ 在 [`bookmarks/`](./bookmarks/) 目录下创建一个名为 [`Apple.webloc`](./bookmarks/Apple.webloc) 的文本文件（带 `.webloc` 后缀），将下面的 `XML` 内容粘贴进去，并根据需要修改其中的网址。
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+  <dict>
+    <key>URL</key>
+	  <string>https://www.apple.com/</string>
+  </dict>
+</plist>
+```
+
+2️⃣ 添加书签图标：
+
+将下载好的 `.icns` 图标放入 icons 目录，并以网址命名，例如 [`apple.com.icns`](./icons/apple.com.icns)。然后运行 [`./set_icons`](./set_icons) 命令，即可自动为 `Apple.webloc` 文件设置对应的图标。
 
 ## webloc 文件图标设置
 

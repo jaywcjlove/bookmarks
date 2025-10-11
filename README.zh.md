@@ -41,6 +41,8 @@ Menuist 书签
 
 本项目提供了 [Menuist](https://github.com/jaywcjlove/rightmenu-master) 使用的书签数据。只需将本项目的 `bookmarks` 文件夹添加到 Menuist 的常用目录中，即可快速生成一个网站导航菜单，方便快速打开常用网站。
 
+![Menuist Screenshots](./assets/menuist-screenshots.png)
+
 项目中的书签使用 macOS 和 iOS 系统的 `.webloc` 文件格式存储，每个 `.webloc` 文件都是一个指向特定 URL 的快捷方式。通过文件夹对网站进行分类，再结合 Menuist 的常用目录导航功能，可以快速访问整理好的网站列表，实现类似网站导航的体验。
 
 ## 目录结构
@@ -53,9 +55,6 @@ Menuist 书签
 │   ├── AI/             # 支持子文件夹
 │   │   ├── ChatGPT.webloc
 │   │   ├── Claude.webloc
-│   │   └── ...
-│   ├── Social Media/
-│   │   ├── Facebook.webloc
 │   │   └── ...
 │   └── ...
 ├── icons/              # 存放图标文件

@@ -39,7 +39,7 @@
 Menuist Bookmarks
 ===
 
-This project provides bookmark data for [Menuist](https://github.com/jaywcjlove/rightmenu-master). Simply add the `bookmarks` folder from this project to Menuist's common directories to quickly generate a website navigation menu for convenient access to frequently used websites.
+This project provides bookmark data for [Menuist](https://github.com/jaywcjlove/rightmenu-master). Simply add the [`bookmarks`](./bookmarks/) folder from this project to Menuist's common directories to quickly generate a website navigation menu for convenient access to frequently used websites.
 
 ![Menuist Screenshots](./assets/menuist-screenshots.png)
 
@@ -105,7 +105,7 @@ swift set_icons.swift
 
 2️⃣ Method 2: Compile to binary file (recommended)
 
-If you don't have a Swift environment to run the Swift script, you can directly run the `./set_icons` command file to set file icons.
+If you don't have a Swift environment to run the Swift script, you can directly run the [`./set_icons`](./set_icons) command file to set file icons.
 
 ```bash
 # Manual compilation to generate a binary file

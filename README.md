@@ -49,7 +49,7 @@ The bookmarks in this project are stored using macOS and iOS system's `.webloc` 
 
 ```shell
 ├── bookmarks/          # Store .webloc files (supports subfolders)
-│   ├── .menuistrc.     # Menuist configuration
+│   ├── menuist.ini     # ⚠️ Menuist configuration
 │   ├── GitHub.webloc
 │   ├── Gmail.webloc
 │   ├── AI/             # Supports subfolders
@@ -113,6 +113,23 @@ swiftc -o set_icons set_icons.swift
 
 # Run
 ./set_icons
+```
+
+## Configuration
+
+Place a configuration file [`menuist.ini`](./bookmarks/menuist.ini) in the root of your bookmarks directory to hide specific menu items.  
+Alternatively, you can use a hidden configuration file named `.menuist.ini` to keep your bookmarks menu clean and tidy.
+
+```ini
+[options]
+; Show file extensions
+showFileExtension = false
+; Show frequently used apps menu
+showCommonAppMenu = false
+; Show "Open in Finder" menu
+showOpenInFinderMenu = false
+; Show parent folder menu
+showParentFolderMenu = false
 ```
 
 ## License

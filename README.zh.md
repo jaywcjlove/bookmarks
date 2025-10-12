@@ -49,7 +49,7 @@ Menuist 书签
 
 ```shell
 ├── bookmarks/          # 存放 .webloc 文件（支持子文件夹）
-│   ├── .menuistrc.     # Menuist 配置
+│   ├── menuist.ini     # ⚠️ Menuist 配置
 │   ├── GitHub.webloc
 │   ├── Gmail.webloc
 │   ├── AI/             # 支持子文件夹
@@ -113,6 +113,22 @@ swiftc -o set_icons set_icons.swift
 
 # 运行
 ./set_icons
+```
+
+## 配置
+
+在常用目录的根目录下放置 [`menuist.ini`](./bookmarks/menuist.ini) 配置文件，可用于隐藏部分菜单项。你也可以使用隐藏文件 `.menuist.ini`，让书签菜单更加整洁。
+
+```ini
+[options]
+; 显示文件扩展名
+showFileExtension = false
+; 显示常用应用菜单
+showCommonAppMenu = false
+; 显示「在 Finder 中打开」菜单
+showOpenInFinderMenu = false
+; 显示父文件夹菜单
+showParentFolderMenu = false
 ```
 
 ## License

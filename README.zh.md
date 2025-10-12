@@ -117,7 +117,7 @@ swiftc -o set_icons set_icons.swift
 
 ## 配置
 
-在常用目录的根目录下放置 [`menuist.ini`](./bookmarks/menuist.ini) 配置文件，可用于隐藏部分菜单项。你也可以使用隐藏文件 `.menuist.ini`，让书签菜单更加整洁。
+在常用目录的根目录下放置 [`menuist.ini`](./bookmarks/menuist.ini) 配置文件，可以隐藏部分菜单项，让书签菜单更整洁。你也可以使用隐藏文件 `.menuist.ini` 来作为配置文件。
 
 ```ini
 [options]

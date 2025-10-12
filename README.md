@@ -117,8 +117,7 @@ swiftc -o set_icons set_icons.swift
 
 ## Configuration
 
-Place a configuration file [`menuist.ini`](./bookmarks/menuist.ini) in the root of your bookmarks directory to hide specific menu items.  
-Alternatively, you can use a hidden configuration file named `.menuist.ini` to keep your bookmarks menu clean and tidy.
+Place a [`menuist.ini`](./bookmarks/menuist.ini) configuration file in the root of your bookmarks directory to hide certain menu items and keep the bookmarks menu tidy.  Alternatively, you can use a hidden file `.menuist.ini` as the configuration.
 
 ```ini
 [options]

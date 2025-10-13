@@ -45,6 +45,8 @@ This project provides bookmark data for [Menuist](https://github.com/jaywcjlove/
 
 The bookmarks in this project are stored using macOS and iOS system's `.webloc` file format, where each `.webloc` file is a shortcut pointing to a specific URL. By organizing websites into folders and combining them with Menuist's common directory navigation feature, you can quickly access organized website lists, creating a website navigation-like experience.
 
+![Menuist Bookmarks](./assets/menuist-bookmarks.png)
+
 ## Directory Structure
 
 ```shell

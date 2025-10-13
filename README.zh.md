@@ -45,6 +45,8 @@ Menuist 书签
 
 项目中的书签使用 macOS 和 iOS 系统的 `.webloc` 文件格式存储，每个 `.webloc` 文件都是一个指向特定 URL 的快捷方式。通过文件夹对网站进行分类，再结合 Menuist 的常用目录导航功能，可以快速访问整理好的网站列表，实现类似网站导航的体验。
 
+![Menuist Bookmarks](./assets/menuist-bookmarks.png)
+
 ## 目录结构
 
 ```shell

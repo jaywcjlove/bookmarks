@@ -39,7 +39,7 @@
 Menuist Bookmarks
 ===
 
-This project provides bookmark data for [Menuist](https://github.com/jaywcjlove/rightmenu-master). Simply add the [`bookmarks`](./bookmarks/) folder from this project to Menuist's common directories to quickly generate a website navigation menu for convenient access to frequently used websites.
+This project provides bookmark data for [Menuist](https://github.com/jaywcjlove/rightmenu-master) v4.1+. Simply add the [`bookmarks`](./bookmarks/) folder from this project to Menuist's common directories to quickly generate a website navigation menu for convenient access to frequently used websites.
 
 ![Menuist Screenshots](./assets/menuist-screenshots.png)
 

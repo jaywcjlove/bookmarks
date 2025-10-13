@@ -39,7 +39,7 @@
 Menuist 书签
 ===
 
-本项目提供了 [Menuist](https://github.com/jaywcjlove/rightmenu-master) 使用的书签数据。只需将本项目的 [`bookmarks`](./bookmarks/) 文件夹添加到 Menuist 的`常用目录`中，即可快速生成一个网站导航菜单，方便快速打开常用网站。
+本项目提供了 [Menuist](https://github.com/jaywcjlove/rightmenu-master) v4.1+ 使用的书签数据。只需将本项目的 [`bookmarks`](./bookmarks/) 文件夹添加到 Menuist 的`常用目录`中，即可快速生成一个网站导航菜单，方便快速打开常用网站。
 
 ![Menuist Screenshots](./assets/menuist-screenshots.png)
 

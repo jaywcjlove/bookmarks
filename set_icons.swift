@@ -3,9 +3,18 @@
 import Foundation
 import AppKit
 
+// 创建一个串行队列用于日志输出，避免并发时日志混乱
+let logQueue = DispatchQueue(label: "com.bookmarks.logging")
+
+func log(_ message: String) {
+    logQueue.sync {
+        print(message)
+    }
+}
+
 func extractURLFromWebloc(filePath: String) -> String? {
     guard let data = FileManager.default.contents(atPath: filePath) else {
-        print("❌ 无法读取文件: \(filePath)")
+        log("❌ 无法读取文件: \(filePath)")
         return nil
     }
     
@@ -15,7 +24,7 @@ func extractURLFromWebloc(filePath: String) -> String? {
             return urlString
         }
     } catch {
-        print("❌ 解析plist文件失败: \(error.localizedDescription)")
+        log("❌ 解析plist文件失败: \(error.localizedDescription)")
     }
     
     return nil
@@ -37,49 +46,56 @@ func extractDomainName(from urlString: String) -> String? {
     return domain
 }
 
+// 创建一个串行队列用于图标设置操作
+// 注意：NSWorkspace 和 NSImage 不是线程安全的，必须串行执行
+let iconQueue = DispatchQueue(label: "com.bookmarks.icon", qos: .userInitiated)
+
 func setFileIcon(filePath: String, iconPath: String) -> Bool {
     // 检查文件是否存在
     guard FileManager.default.fileExists(atPath: filePath),
           FileManager.default.fileExists(atPath: iconPath) else {
-        print("❌ 文件不存在: \(filePath) 或 \(iconPath)")
+        log("❌ 文件不存在: \(filePath) 或 \(iconPath)")
         return false
     }
     
-    // 创建图标
-    guard let icon = NSImage(contentsOfFile: iconPath) else {
-        print("❌ 无法加载图标文件: \(iconPath)")
-        return false
+    var success = false
+    
+    // 在串行队列中执行图标设置，避免并发问题
+    iconQueue.sync {
+        // 创建图标
+        guard let icon = NSImage(contentsOfFile: iconPath) else {
+            log("❌ 无法加载图标文件: \(iconPath)")
+            return
+        }
+        
+        // 设置文件图标
+        success = NSWorkspace.shared.setIcon(icon, forFile: filePath)
+        if success {
+            log("✅ 成功为 \(URL(fileURLWithPath: filePath).lastPathComponent) 设置图标")
+        } else {
+            log("❌ 设置图标失败")
+        }
     }
     
-    // 设置文件图标
-    let success = NSWorkspace.shared.setIcon(icon, forFile: filePath)
-    if success {
-        print("✅ 成功为 \(URL(fileURLWithPath: filePath).lastPathComponent) 设置图标")
-        return true
-    } else {
-        print("❌ 设置图标失败")
-        return false
-    }
+    return success
 }
 
 func processWeblocFile(filePath: String, relativePath: String, iconsDir: String) -> Bool {
     // 从.webloc文件中提取URL
     guard let urlString = extractURLFromWebloc(filePath: filePath) else {
-        print("⚠️  无法从 \(relativePath) 中提取URL")
-        print("")
+        log("⚠️  无法从 \(relativePath) 中提取URL")
+        log("")
         return false
     }
-    
-    print("🐝 \(relativePath) -> \(urlString)")
     
     // 提取域名
     guard let domainName = extractDomainName(from: urlString) else {
-        print("⚠️  无法从URL中提取域名: \(urlString)")
-        print("")
+        log("⚠️  无法从URL中提取域名: \(relativePath) -> \(urlString)")
+        log("")
         return false
     }
     
-    print("🌐 域名: \(domainName)")
+    log("🌐 域名: \(domainName), \(relativePath) -> \(urlString)")
     
     // 查找对应的图标文件
     var iconPath: String?
@@ -97,51 +113,67 @@ func processWeblocFile(filePath: String, relativePath: String, iconsDir: String)
     }
     
     if let iconPath = iconPath {
-        print("🔧 使用图标: \(URL(fileURLWithPath: iconPath).lastPathComponent)")
         if setFileIcon(filePath: filePath, iconPath: iconPath) {
-            print("")
             return true
         }
     } else {
-        print("⚠️  未找到域名 \(domainName) 对应的图标文件 (\(domainName).icns 或 \(domainName).png)")
+        log("⚠️  未找到域名 \(domainName) 对应的图标文件 (\(domainName).icns 或 \(domainName).png)")
     }
-    print("")
+    log("")
     return false
 }
 
 func processDirectory(path: String, iconsDir: String, basePath: String) -> (success: Int, total: Int) {
     var successCount = 0
     var totalCount = 0
+    let lock = NSLock()
     
     do {
         let items = try FileManager.default.contentsOfDirectory(atPath: path)
         
+        // 使用 DispatchGroup 并行处理所有项目
+        let dispatchGroup = DispatchGroup()
+        let concurrentQueue = DispatchQueue(label: "com.bookmarks.processing", attributes: .concurrent)
+        
         for item in items {
-            let itemPath = "\(path)/\(item)"
-            var isDirectory: ObjCBool = false
-            
-            if FileManager.default.fileExists(atPath: itemPath, isDirectory: &isDirectory) {
-                if isDirectory.boolValue {
-                    // 如果是目录，递归处理
-                    let relativePath = String(itemPath.dropFirst(basePath.count + 1))
-                    print("📂 处理文件夹: \(relativePath)")
-                    let result = processDirectory(path: itemPath, iconsDir: iconsDir, basePath: basePath)
-                    successCount += result.success
-                    totalCount += result.total
-                } else if item.hasSuffix(".webloc") {
-                    // 如果是.webloc文件，处理它
-                    totalCount += 1
-                    let relativePath = String(itemPath.dropFirst(basePath.count + 1))
-                    if processWeblocFile(filePath: itemPath, relativePath: relativePath, iconsDir: iconsDir) {
-                        successCount += 1
+            dispatchGroup.enter()
+            concurrentQueue.async {
+                defer { dispatchGroup.leave() }
+                let itemPath = "\(path)/\(item)"
+                var isDirectory: ObjCBool = false
+                
+                if FileManager.default.fileExists(atPath: itemPath, isDirectory: &isDirectory) {
+                    if isDirectory.boolValue {
+                        // 如果是目录，递归处理
+                        //let relativePath = String(itemPath.dropFirst(basePath.count + 1))
+                        //log("📂 处理文件夹: \(relativePath)")
+                        let result = processDirectory(path: itemPath, iconsDir: iconsDir, basePath: basePath)
+                        
+                        lock.lock()
+                        successCount += result.success
+                        totalCount += result.total
+                        lock.unlock()
+                    } else if item.hasSuffix(".webloc") {
+                        // 如果是.webloc文件，处理它
+                        let relativePath = String(itemPath.dropFirst(basePath.count + 1))
+                        let success = processWeblocFile(filePath: itemPath, relativePath: relativePath, iconsDir: iconsDir)
+                        
+                        lock.lock()
+                        totalCount += 1
+                        if success {
+                            successCount += 1
+                        }
+                        lock.unlock()
                     }
                 }
             }
         }
+        
+        // 等待所有任务完成
+        dispatchGroup.wait()
     } catch {
-        print("❌ 读取目录失败: \(path) - \(error.localizedDescription)")
+        log("❌ 读取目录失败: \(path) - \(error.localizedDescription)")
     }
-    
     return (success: successCount, total: totalCount)
 }
 
@@ -153,26 +185,26 @@ func main() {
     let bookmarksDir = "\(projectDir)/bookmarks"
     let iconsDir = "\(projectDir)/icons"
     
-    print("📁 项目目录: \(projectDir)")
-    print("📁 Bookmarks目录: \(bookmarksDir)")
-    print("📁 Icons目录: \(iconsDir)")
+    log("📁 项目目录: \(projectDir)")
+    log("📁 Bookmarks目录: \(bookmarksDir)")
+    log("📁 Icons目录: \(iconsDir)")
     
     // 检查目录是否存在
     guard FileManager.default.fileExists(atPath: bookmarksDir) else {
-        print("❌ bookmarks 目录不存在: \(bookmarksDir)")
+        log("❌ bookmarks 目录不存在: \(bookmarksDir)")
         exit(1)
     }
     
     guard FileManager.default.fileExists(atPath: iconsDir) else {
-        print("❌ icons 目录不存在: \(iconsDir)")
+        log("❌ icons 目录不存在: \(iconsDir)")
         exit(1)
     }
     
-    print("\n🚀 开始递归设置 webloc 文件图标...\n")
+    log("\n🚀 开始并行递归设置 webloc 文件图标...\n")
     
     let result = processDirectory(path: bookmarksDir, iconsDir: iconsDir, basePath: bookmarksDir)
     
-    print("🎉 完成! 成功设置 \(result.success)/\(result.total) 个文件的图标")
+    log("🎉 完成! 成功设置 \(result.success)/\(result.total) 个文件的图标")
 }
 
 // 运行主函数

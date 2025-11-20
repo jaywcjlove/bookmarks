@@ -84,6 +84,8 @@ Menuist 书签
 </plist>
 ```
 
+![添加新的书签](./assets/add-bookmark.gif)
+
 2️⃣ 添加书签图标
 
 将下载好的 `.icns` 图标放入 [`icons`](./icons/) 目录，并以网址命名，例如 [`apple.com.icns`](./icons/apple.com.icns)。

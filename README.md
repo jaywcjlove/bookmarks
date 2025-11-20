@@ -84,6 +84,8 @@ The bookmarks in this project are stored using macOS and iOS system's `.webloc` 
 </plist>
 ```
 
+![add bookmark](./assets/add-bookmark.gif)
+
 2️⃣ Add a Bookmark Icon
 
 Place the downloaded `.icns` icon file into the `icons` directory and name it after the website, for example [`apple.com.icns`](./icons/apple.com.icns).

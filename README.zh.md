@@ -72,7 +72,7 @@ Menuist 书签
 │   ├── chatgpt.com.icns
 │   └── ...
 ├── set_icons.swift     # Swift 源码
-└── set_icons          # 编译后的二进制文件
+└── set_icons           # 编译后的二进制文件
 ```
 
 ## 添加新的书签

@@ -72,7 +72,7 @@ The bookmarks in this project are stored using macOS and iOS system's `.webloc` 
 │   ├── chatgpt.com.icns
 │   └── ...
 ├── set_icons.swift     # Swift source code
-└── set_icons          # Compiled binary file
+└── set_icons           # Compiled binary file
 ```
 
 ## Add a new bookmark

@@ -72,7 +72,6 @@ Menuist 书签
 │   ├── chatgpt.com.icns
 │   └── ...
 ├── set_icons.swift     # Swift 源码
-├── build.sh           # 编译脚本
 └── set_icons          # 编译后的二进制文件
 ```
 

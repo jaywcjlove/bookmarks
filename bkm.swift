@@ -7,6 +7,7 @@ enum Command: String {
     case setIcons = "--set-icons"
     case generateHTML = "--generate-html"
     case publishGHPages = "--publish-gh-pages"
+    case includeGitHubLink = "--include-github-link"
     case help = "--help"
 }
 
@@ -233,7 +234,53 @@ func countBookmarks(in folder: BookmarkFolder) -> Int {
     folder.bookmarks.count + folder.folders.reduce(0) { $0 + countBookmarks(in: $1) }
 }
 
-func renderStaticHTML(root: BookmarkFolder) -> String {
+func normalizedGitHubURL(from remoteURL: String) -> String? {
+    let trimmed = remoteURL.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !trimmed.isEmpty else {
+        return nil
+    }
+
+    var url = trimmed
+    if url.hasPrefix("git@github.com:") {
+        url = "https://github.com/" + String(url.dropFirst("git@github.com:".count))
+    }
+
+    if url.hasSuffix(".git") {
+        url = String(url.dropLast(4))
+    }
+
+    guard url.hasPrefix("https://github.com/") else {
+        return nil
+    }
+
+    return url
+}
+
+func currentGitHubURL(projectDir: String) -> String? {
+    let result = runCommand("/usr/bin/git", ["remote", "get-url", "origin"], currentDirectory: projectDir)
+    guard result.status == 0 else {
+        return nil
+    }
+
+    return normalizedGitHubURL(from: result.output)
+}
+
+func renderGitHubLink(_ githubURL: String?) -> String {
+    guard let githubURL else {
+        return ""
+    }
+
+    return """
+          <a class="github-link" href="\(htmlEscaped(githubURL))" target="_blank" rel="noopener noreferrer" aria-label="Open GitHub repository">
+            <svg aria-hidden="true" viewBox="0 0 16 16" width="18" height="18">
+              <path fill="currentColor" d="M8 0C3.58 0 0 3.67 0 8.2c0 3.63 2.29 6.7 5.47 7.79.4.08.55-.18.55-.4 0-.2-.01-.86-.01-1.56-2.01.38-2.53-.5-2.69-.96-.09-.24-.48-.96-.82-1.15-.28-.15-.68-.52-.01-.53.63-.01 1.08.59 1.23.84.72 1.24 1.87.89 2.33.68.07-.53.28-.89.51-1.1-1.78-.21-3.64-.91-3.64-4.03 0-.89.31-1.62.82-2.19-.08-.21-.36-1.04.08-2.16 0 0 .67-.22 2.2.84A7.4 7.4 0 0 1 8 3.99c.68 0 1.36.09 2 .28 1.52-1.06 2.19-.84 2.19-.84.44 1.12.16 1.95.08 2.16.51.57.82 1.3.82 2.19 0 3.13-1.87 3.82-3.65 4.03.29.26.54.76.54 1.53 0 1.1-.01 1.99-.01 2.26 0 .22.15.48.55.4A8.1 8.1 0 0 0 16 8.2C16 3.67 12.42 0 8 0Z"/>
+            </svg>
+            <span>GitHub</span>
+          </a>
+    """
+}
+
+func renderStaticHTML(root: BookmarkFolder, githubURL: String?) -> String {
     let total = countBookmarks(in: root)
     let generatedAt = ISO8601DateFormatter().string(from: Date())
 
@@ -310,6 +357,29 @@ func renderStaticHTML(root: BookmarkFolder) -> String {
           border-color: var(--accent);
           box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
         }
+        .header-actions {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+        .github-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          min-height: 44px;
+          border: 1px solid var(--line);
+          border-radius: 8px;
+          background: var(--panel);
+          color: var(--text);
+          padding: 0 12px;
+          font-size: 14px;
+          font-weight: 650;
+          text-decoration: none;
+        }
+        .github-link:hover {
+          border-color: var(--accent);
+          color: var(--accent);
+        }
         .bookmark-section {
           padding-top: 32px;
         }
@@ -385,7 +455,9 @@ func renderStaticHTML(root: BookmarkFolder) -> String {
           main { width: min(100% - 20px, 1160px); padding-top: 24px; }
           header { display: block; }
           h1 { font-size: 32px; }
-          .search { margin-top: 18px; width: 100%; }
+          .header-actions { margin-top: 18px; align-items: stretch; }
+          .search { width: 100%; }
+          .github-link { justify-content: center; }
           .bookmark-grid { grid-template-columns: 1fr; }
         }
       </style>
@@ -397,7 +469,10 @@ func renderStaticHTML(root: BookmarkFolder) -> String {
             <h1>Bookmarks</h1>
             <p class="meta">\(total) links · generated \(htmlEscaped(generatedAt))</p>
           </div>
-          <input class="search" type="search" placeholder="Search bookmarks" aria-label="Search bookmarks">
+          <div class="header-actions">
+            <input class="search" type="search" placeholder="Search bookmarks" aria-label="Search bookmarks">
+    \(renderGitHubLink(githubURL))
+          </div>
         </header>
     \(renderFolder(root))
       </main>
@@ -417,7 +492,7 @@ func renderStaticHTML(root: BookmarkFolder) -> String {
     """
 }
 
-func generateStaticHTML(projectDir: String, bookmarksDir: String, iconsDir: String) {
+func generateStaticHTML(projectDir: String, bookmarksDir: String, iconsDir: String, includeGitHubLink: Bool) {
     let outputDir = "\(projectDir)/.html"
     let outputIconsDir = "\(outputDir)/icons"
     let outputPath = "\(outputDir)/index.html"
@@ -433,7 +508,11 @@ func generateStaticHTML(projectDir: String, bookmarksDir: String, iconsDir: Stri
     }
 
     let root = loadBookmarkFolder(path: bookmarksDir, name: "Bookmarks", iconsDir: iconsDir, outputIconsDir: outputIconsDir)
-    let html = renderStaticHTML(root: root)
+    let githubURL = includeGitHubLink ? currentGitHubURL(projectDir: projectDir) : nil
+    if includeGitHubLink && githubURL == nil {
+        log("⚠️  未找到可用的 GitHub origin 地址，导航页将不显示 GitHub 链接")
+    }
+    let html = renderStaticHTML(root: root, githubURL: githubURL)
 
     do {
         try html.write(toFile: outputPath, atomically: true, encoding: .utf8)
@@ -479,9 +558,9 @@ func copyHTMLDirectory(from source: String, to destination: String) {
     }
 }
 
-func publishHTMLToGHPages(projectDir: String, bookmarksDir: String) {
+func publishHTMLToGHPages(projectDir: String, bookmarksDir: String, includeGitHubLink: Bool) {
     let iconsDir = "\(projectDir)/icons"
-    generateStaticHTML(projectDir: projectDir, bookmarksDir: bookmarksDir, iconsDir: iconsDir)
+    generateStaticHTML(projectDir: projectDir, bookmarksDir: bookmarksDir, iconsDir: iconsDir, includeGitHubLink: includeGitHubLink)
 
     let sourceHTMLDir = "\(projectDir)/.html"
     let tempDir = "\(NSTemporaryDirectory())bookmarks-gh-pages-\(UUID().uuidString)"
@@ -690,16 +769,19 @@ func main() {
     if arguments.contains(Command.help.rawValue) || arguments.contains("-h") {
         print("""
         Usage:
-          ./set_icons
-          ./set_icons --set-icons
-          ./set_icons --generate-html
-          ./set_icons --publish-gh-pages
-          ./set_icons --help
+          ./bkm
+          ./bkm --set-icons
+          ./bkm --generate-html
+          ./bkm --generate-html --include-github-link
+          ./bkm --publish-gh-pages
+          ./bkm --help
 
         Options:
           --set-icons          Set custom icons for .webloc files. This is the default behavior.
           --generate-html      Generate a static bookmark navigation page at .html/index.html.
           --publish-gh-pages   Generate .html and commit it to the gh-pages branch.
+          --include-github-link
+                               Include the current GitHub repository link in generated HTML.
         """)
         return
     }
@@ -708,6 +790,7 @@ func main() {
         Command.setIcons.rawValue,
         Command.generateHTML.rawValue,
         Command.publishGHPages.rawValue,
+        Command.includeGitHubLink.rawValue,
         Command.help.rawValue,
         "-h"
     ])
@@ -715,12 +798,13 @@ func main() {
     let unknownArguments = arguments.filter { !supportedArguments.contains($0) }
     if !unknownArguments.isEmpty {
         log("❌ 未知参数: \(unknownArguments.joined(separator: ", "))")
-        log("运行 ./set_icons --help 查看可用参数")
+        log("运行 ./bkm --help 查看可用参数")
         exit(1)
     }
 
     log("📁 项目目录: \(projectDir)")
     log("📁 Bookmarks目录: \(bookmarksDir)")
+    let includeGitHubLink = arguments.contains(Command.includeGitHubLink.rawValue)
 
     // 检查目录是否存在
     guard FileManager.default.fileExists(atPath: bookmarksDir) else {
@@ -729,12 +813,12 @@ func main() {
     }
 
     if arguments.contains(Command.generateHTML.rawValue) {
-        generateStaticHTML(projectDir: projectDir, bookmarksDir: bookmarksDir, iconsDir: iconsDir)
+        generateStaticHTML(projectDir: projectDir, bookmarksDir: bookmarksDir, iconsDir: iconsDir, includeGitHubLink: includeGitHubLink)
         return
     }
 
     if arguments.contains(Command.publishGHPages.rawValue) {
-        publishHTMLToGHPages(projectDir: projectDir, bookmarksDir: bookmarksDir)
+        publishHTMLToGHPages(projectDir: projectDir, bookmarksDir: bookmarksDir, includeGitHubLink: includeGitHubLink)
         return
     }
 

@@ -72,8 +72,8 @@ Menuist 书签
 │   ├── google.com.icns
 │   ├── chatgpt.com.icns
 │   └── ...
-├── set_icons.swift     # Swift 源码
-└── set_icons           # 编译后的二进制文件
+├── bkm.swift     # Swift 源码
+└── bkm           # 编译后的二进制文件
 ```
 
 ## 添加新的书签
@@ -96,7 +96,7 @@ Menuist 书签
 
 将下载好的 `.icns` 图标放入 [`icons`](./icons/) 目录，并以网址命名，例如 [`apple.com.icns`](./icons/apple.com.icns)。
 
-然后运行 [`./set_icons`](./set_icons) 命令，即可自动为 `Apple.webloc` 文件设置对应的图标。
+然后运行 [`./bkm`](./bkm) 命令，即可自动为 `Apple.webloc` 文件设置对应的图标。
 
 图标文件（`.icns`）可以通过以下方式获取或制作：
 
@@ -111,56 +111,59 @@ Menuist 书签
 1️⃣ 方法1: 直接运行 Swift 脚本 (需要安装 Swift)
 
 ```bash
-swift set_icons.swift
+swift bkm.swift
 ```
 
 2️⃣ 方法2: 编译成二进制文件 (推荐)
 
-如果没有 swift 环境运行 swift 脚本，可以直接运行 [`./set_icons`](./set_icons) 命令文件设置文件图标
+如果没有 swift 环境运行 swift 脚本，可以直接运行 [`./bkm`](./bkm) 命令文件设置文件图标
 
 ```bash
 # 手动编译，生成二进制文件
-swiftc -o set_icons set_icons.swift
+swiftc -o bkm bkm.swift
 
 # 添加执行权限
-chmod +x set_icons
+chmod +x bkm
 
 # 运行
-./set_icons
+./bkm
 ```
 
 可用命令参数：
 
 ```bash
 # 为 .webloc 文件设置图标，这是默认行为
-./set_icons --set-icons
+./bkm --set-icons
 
 # 根据 bookmarks 目录生成静态导航页到 .html/index.html
 # 网页图标会导出到 .html/icons/
-./set_icons --generate-html
+./bkm --generate-html
+
+# 生成静态导航页并显示当前 GitHub 仓库链接
+./bkm --generate-html --include-github-link
 
 # 生成 .html 并提交到 gh-pages 分支
 # 命令也会在 gh-pages 分支写入 .nojekyll 以适配 GitHub Pages
-./set_icons --publish-gh-pages
+./bkm --publish-gh-pages
 ```
 
-如果在 Intel Mac 上看到 `zsh: bad CPU type in executable: ./set_icons`，说明当前二进制文件是为其他 CPU 架构编译的。可以重新生成 Intel 架构版本：
+如果在 Intel Mac 上看到 `zsh: bad CPU type in executable: ./bkm`，说明当前二进制文件是为其他 CPU 架构编译的。可以重新生成 Intel 架构版本：
 
 ```bash
-swiftc -target x86_64-apple-macosx13.0 -o set_icons set_icons.swift
-chmod +x set_icons
+swiftc -target x86_64-apple-macosx13.0 -o bkm bkm.swift
+chmod +x bkm
 ```
 
 也可以生成同时支持 Apple Silicon 和 Intel Mac 的通用二进制。需要先分别编译两个架构的二进制文件，再用 `lipo` 合并：
 
 ```bash
-swiftc -target arm64-apple-macosx13.0 -o set_icons_arm64 set_icons.swift && \
-swiftc -target x86_64-apple-macosx13.0 -o set_icons_x86_64 set_icons.swift && \
-lipo -create -output set_icons set_icons_arm64 set_icons_x86_64 && \
-chmod +x set_icons
+swiftc -target arm64-apple-macosx13.0 -o bkm_arm64 bkm.swift && \
+swiftc -target x86_64-apple-macosx13.0 -o bkm_x86_64 bkm.swift && \
+lipo -create -output bkm bkm_arm64 bkm_x86_64 && \
+chmod +x bkm
 ```
 
-`lipo` 命令本身不能编译源码。如果 `set_icons_arm64` 或 `set_icons_x86_64` 还不存在，请运行上面完整的一整段命令，不要只运行 `lipo` 这一行。
+`lipo` 命令本身不能编译源码。如果 `bkm_arm64` 或 `bkm_x86_64` 还不存在，请运行上面完整的一整段命令，不要只运行 `lipo` 这一行。
 
 ## 配置
 

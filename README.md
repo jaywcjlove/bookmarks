@@ -72,8 +72,8 @@ The bookmarks in this project are stored using macOS and iOS system's `.webloc` 
 │   ├── google.com.icns
 │   ├── chatgpt.com.icns
 │   └── ...
-├── set_icons.swift     # Swift source code
-└── set_icons           # Compiled binary file
+├── bkm.swift     # Swift source code
+└── bkm           # Compiled binary file
 ```
 
 ## Add a new bookmark
@@ -96,7 +96,7 @@ The bookmarks in this project are stored using macOS and iOS system's `.webloc` 
 
 Place the downloaded `.icns` icon file into the `icons` directory and name it after the website, for example [`apple.com.icns`](./icons/apple.com.icns).
 
-Then run the [`./set_icons`](./set_icons) command to automatically apply the icon to the [`Apple.webloc`](./bookmarks/Apple.webloc) file.
+Then run the [`./bkm`](./bkm) command to automatically apply the icon to the [`Apple.webloc`](./bookmarks/Apple.webloc) file.
 
 You can obtain or create `.icns` icon files in the following ways:
 
@@ -111,56 +111,59 @@ The script can automatically set icons for `.webloc` files by matching correspon
 1️⃣ Method 1: Run Swift script directly (requires Swift installation)
 
 ```bash
-swift set_icons.swift
+swift bkm.swift
 ```
 
 2️⃣ Method 2: Compile to binary file (recommended)
 
-If you don't have a Swift environment to run the Swift script, you can directly run the [`./set_icons`](./set_icons) command file to set file icons.
+If you don't have a Swift environment to run the Swift script, you can directly run the [`./bkm`](./bkm) command file to set file icons.
 
 ```bash
 # Manual compilation to generate a binary file
-swiftc -o set_icons set_icons.swift
+swiftc -o bkm bkm.swift
 
 # Make the command executable
-chmod +x set_icons
+chmod +x bkm
 
 # Run
-./set_icons
+./bkm
 ```
 
 Available command options:
 
 ```bash
 # Set icons for .webloc files. This is the default behavior.
-./set_icons --set-icons
+./bkm --set-icons
 
 # Generate a static bookmark navigation page at .html/index.html.
 # Web icons are exported to .html/icons/.
-./set_icons --generate-html
+./bkm --generate-html
+
+# Generate the static page and include the current GitHub repository link.
+./bkm --generate-html --include-github-link
 
 # Generate .html and commit it to the gh-pages branch.
 # The command also writes .nojekyll on gh-pages for GitHub Pages.
-./set_icons --publish-gh-pages
+./bkm --publish-gh-pages
 ```
 
-If you see `zsh: bad CPU type in executable: ./set_icons` on an Intel Mac, the existing binary was built for a different CPU architecture. Rebuild an Intel binary:
+If you see `zsh: bad CPU type in executable: ./bkm` on an Intel Mac, the existing binary was built for a different CPU architecture. Rebuild an Intel binary:
 
 ```bash
-swiftc -target x86_64-apple-macosx13.0 -o set_icons set_icons.swift
-chmod +x set_icons
+swiftc -target x86_64-apple-macosx13.0 -o bkm bkm.swift
+chmod +x bkm
 ```
 
 To generate a universal binary that supports both Apple Silicon and Intel Macs, compile the two architecture-specific binaries first, then merge them with `lipo`:
 
 ```bash
-swiftc -target arm64-apple-macosx13.0 -o set_icons_arm64 set_icons.swift && \
-swiftc -target x86_64-apple-macosx13.0 -o set_icons_x86_64 set_icons.swift && \
-lipo -create -output set_icons set_icons_arm64 set_icons_x86_64 && \
-chmod +x set_icons
+swiftc -target arm64-apple-macosx13.0 -o bkm_arm64 bkm.swift && \
+swiftc -target x86_64-apple-macosx13.0 -o bkm_x86_64 bkm.swift && \
+lipo -create -output bkm bkm_arm64 bkm_x86_64 && \
+chmod +x bkm
 ```
 
-The `lipo` command cannot compile source code by itself. If `set_icons_arm64` or `set_icons_x86_64` does not exist yet, run the full command block above instead of running only the `lipo` line.
+The `lipo` command cannot compile source code by itself. If `bkm_arm64` or `bkm_x86_64` does not exist yet, run the full command block above instead of running only the `lipo` line.
 
 ## Configuration
 

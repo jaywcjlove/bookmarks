@@ -283,6 +283,9 @@ func renderGitHubLink(_ githubURL: String?) -> String {
 func renderStaticHTML(root: BookmarkFolder, githubURL: String?) -> String {
     let total = countBookmarks(in: root)
     let generatedAt = ISO8601DateFormatter().string(from: Date())
+    let pageTitle = "Bookmarks"
+    let pageDescription = "A curated bookmark navigation page generated from organized .webloc files."
+    let pageKeywords = "bookmarks,navigation,website directory,webloc,static site,GitHub Pages"
 
     return """
     <!doctype html>
@@ -290,7 +293,15 @@ func renderStaticHTML(root: BookmarkFolder, githubURL: String?) -> String {
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <title>Bookmarks</title>
+      <meta name="description" content="\(htmlEscaped(pageDescription))">
+      <meta name="keywords" content="\(htmlEscaped(pageKeywords))">
+      <meta property="og:title" content="\(htmlEscaped(pageTitle))">
+      <meta property="og:description" content="\(htmlEscaped(pageDescription))">
+      <meta property="og:type" content="website">
+      <meta name="twitter:card" content="summary">
+      <meta name="twitter:title" content="\(htmlEscaped(pageTitle))">
+      <meta name="twitter:description" content="\(htmlEscaped(pageDescription))">
+      <title>\(htmlEscaped(pageTitle))</title>
       <style>
         :root {
           color-scheme: light dark;

@@ -47,11 +47,11 @@ Menuist 书签
 [![Buy me a coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-ffdd00?logo=buy-me-a-coffee&logoColor=black)](https://jaywcjlove.github.io/#/sponsor)
 [![Follow On X](https://img.shields.io/badge/Follow%20on%20X-333333?logo=x&logoColor=white)](https://x.com/jaywcjlove)
 
-本项目提供了 [Menuist](https://github.com/jaywcjlove/rightmenu-master) v4.1+ 使用的书签数据。只需将本项目的 [`bookmarks`](./bookmarks/) 文件夹添加到 Menuist 的`常用目录`中，即可快速生成一个网站导航菜单，方便快速打开常用网站。
+本项目提供了一份按目录组织的书签数据，并内置 `bkm` 命令，可将 [`bookmarks`](./bookmarks/) 目录生成静态导航网站。它也可以配合 [Menuist](https://github.com/jaywcjlove/rightmenu-master) v4.1+ 使用，只需将 `bookmarks` 文件夹添加到 Menuist 的`常用目录`中，即可快速打开常用网站。
 
 ![Menuist Screenshots](./assets/menuist-screenshots.png)
 
-项目中的书签使用 macOS 和 iOS 系统的 `.webloc` 文件格式存储，每个 `.webloc` 文件都是一个指向特定 URL 的快捷方式。通过文件夹对网站进行分类，再结合 Menuist 的常用目录导航功能，可以快速访问整理好的网站列表，实现类似网站导航的体验。
+项目中的书签使用 macOS 和 iOS 系统的 `.webloc` 文件格式存储，每个 `.webloc` 文件都是一个指向特定 URL 的快捷方式。你可以通过文件夹对网站进行分类，直接在 Menuist 中使用，也可以生成带图标的静态 HTML 导航页，并发布到 GitHub Pages。
 
 ![Menuist Bookmarks](./assets/menuist-bookmarks.png)
 

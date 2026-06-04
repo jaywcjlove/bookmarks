@@ -47,11 +47,11 @@ Menuist Bookmarks
 [![Buy me a coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-ffdd00?logo=buy-me-a-coffee&logoColor=black)](https://jaywcjlove.github.io/#/sponsor)
 [![Follow On X](https://img.shields.io/badge/Follow%20on%20X-333333?logo=x&logoColor=white)](https://x.com/jaywcjlove)
 
-This project provides bookmark data for [Menuist](https://github.com/jaywcjlove/rightmenu-master) v4.1+. Simply add the [`bookmarks`](./bookmarks/) folder from this project to Menuist's common directories to quickly generate a website navigation menu for convenient access to frequently used websites.
+This project provides organized bookmark data and a small `bkm` command for turning the [`bookmarks`](./bookmarks/) directory into a static navigation website. It can also be used with [Menuist](https://github.com/jaywcjlove/rightmenu-master) v4.1+ by adding the `bookmarks` folder to Menuist's common directories for quick access to frequently used websites.
 
 ![Menuist Screenshots](./assets/menuist-screenshots.png)
 
-The bookmarks in this project are stored using macOS and iOS system's `.webloc` file format, where each `.webloc` file is a shortcut pointing to a specific URL. By organizing websites into folders and combining them with Menuist's common directory navigation feature, you can quickly access organized website lists, creating a website navigation-like experience.
+The bookmarks in this project are stored using macOS and iOS system's `.webloc` file format, where each `.webloc` file is a shortcut pointing to a specific URL. Websites can be organized with folders, used directly in Menuist, or generated as a static HTML navigation page with icons and optional GitHub Pages publishing.
 
 ![Menuist Bookmarks](./assets/menuist-bookmarks.png)
 

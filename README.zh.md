@@ -121,9 +121,30 @@ swift set_icons.swift
 # 手动编译，生成二进制文件
 swiftc -o set_icons set_icons.swift
 
+# 添加执行权限
+chmod +x set_icons
+
 # 运行
 ./set_icons
 ```
+
+如果在 Intel Mac 上看到 `zsh: bad CPU type in executable: ./set_icons`，说明当前二进制文件是为其他 CPU 架构编译的。可以重新生成 Intel 架构版本：
+
+```bash
+swiftc -target x86_64-apple-macosx13.0 -o set_icons set_icons.swift
+chmod +x set_icons
+```
+
+也可以生成同时支持 Apple Silicon 和 Intel Mac 的通用二进制。需要先分别编译两个架构的二进制文件，再用 `lipo` 合并：
+
+```bash
+swiftc -target arm64-apple-macosx13.0 -o set_icons_arm64 set_icons.swift && \
+swiftc -target x86_64-apple-macosx13.0 -o set_icons_x86_64 set_icons.swift && \
+lipo -create -output set_icons set_icons_arm64 set_icons_x86_64 && \
+chmod +x set_icons
+```
+
+`lipo` 命令本身不能编译源码。如果 `set_icons_arm64` 或 `set_icons_x86_64` 还不存在，请运行上面完整的一整段命令，不要只运行 `lipo` 这一行。
 
 ## 配置
 

@@ -121,9 +121,30 @@ If you don't have a Swift environment to run the Swift script, you can directly 
 # Manual compilation to generate a binary file
 swiftc -o set_icons set_icons.swift
 
+# Make the command executable
+chmod +x set_icons
+
 # Run
 ./set_icons
 ```
+
+If you see `zsh: bad CPU type in executable: ./set_icons` on an Intel Mac, the existing binary was built for a different CPU architecture. Rebuild an Intel binary:
+
+```bash
+swiftc -target x86_64-apple-macosx13.0 -o set_icons set_icons.swift
+chmod +x set_icons
+```
+
+To generate a universal binary that supports both Apple Silicon and Intel Macs, compile the two architecture-specific binaries first, then merge them with `lipo`:
+
+```bash
+swiftc -target arm64-apple-macosx13.0 -o set_icons_arm64 set_icons.swift && \
+swiftc -target x86_64-apple-macosx13.0 -o set_icons_x86_64 set_icons.swift && \
+lipo -create -output set_icons set_icons_arm64 set_icons_x86_64 && \
+chmod +x set_icons
+```
+
+The `lipo` command cannot compile source code by itself. If `set_icons_arm64` or `set_icons_x86_64` does not exist yet, run the full command block above instead of running only the `lipo` line.
 
 ## Configuration
 

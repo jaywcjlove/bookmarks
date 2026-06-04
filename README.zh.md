@@ -100,8 +100,8 @@ Menuist 书签
 
 图标文件（`.icns`）可以通过以下方式获取或制作：
 
-- 从 [macOSicons](https://macosicons.com) 下载现成图标  
-- 使用 [Iconed](https://apps.apple.com/app/iconed/id6739444407) 自制应用图标  
+- 从 [macOSicons](https://macosicons.com) 下载现成图标
+- 使用 [Iconed](https://apps.apple.com/app/iconed/id6739444407) 自制应用图标
 - 使用 [Iconize Folder](https://apps.apple.com/app/iconize-folder/id6478772538) 制作文件夹图标并导出 `.icns` 文件
 
 ## webloc 文件图标设置
@@ -127,6 +127,21 @@ chmod +x set_icons
 
 # 运行
 ./set_icons
+```
+
+可用命令参数：
+
+```bash
+# 为 .webloc 文件设置图标，这是默认行为
+./set_icons --set-icons
+
+# 根据 bookmarks 目录生成静态导航页到 .html/index.html
+# 网页图标会导出到 .html/icons/
+./set_icons --generate-html
+
+# 生成 .html 并提交到 gh-pages 分支
+# 命令也会在 gh-pages 分支写入 .nojekyll 以适配 GitHub Pages
+./set_icons --publish-gh-pages
 ```
 
 如果在 Intel Mac 上看到 `zsh: bad CPU type in executable: ./set_icons`，说明当前二进制文件是为其他 CPU 架构编译的。可以重新生成 Intel 架构版本：

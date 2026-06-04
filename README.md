@@ -100,8 +100,8 @@ Then run the [`./set_icons`](./set_icons) command to automatically apply the ico
 
 You can obtain or create `.icns` icon files in the following ways:
 
-- Download ready-made icons from [macOSicons](https://macosicons.com)  
-- Create custom app icons using [Iconed](https://apps.apple.com/app/iconed/id6739444407)  
+- Download ready-made icons from [macOSicons](https://macosicons.com)
+- Create custom app icons using [Iconed](https://apps.apple.com/app/iconed/id6739444407)
 - Create folder icons and export them as `.icns` using [Iconize Folder](https://apps.apple.com/app/iconize-folder/id6478772538)
 
 ## Setting Icons for webloc Files
@@ -127,6 +127,21 @@ chmod +x set_icons
 
 # Run
 ./set_icons
+```
+
+Available command options:
+
+```bash
+# Set icons for .webloc files. This is the default behavior.
+./set_icons --set-icons
+
+# Generate a static bookmark navigation page at .html/index.html.
+# Web icons are exported to .html/icons/.
+./set_icons --generate-html
+
+# Generate .html and commit it to the gh-pages branch.
+# The command also writes .nojekyll on gh-pages for GitHub Pages.
+./set_icons --publish-gh-pages
 ```
 
 If you see `zsh: bad CPU type in executable: ./set_icons` on an Intel Mac, the existing binary was built for a different CPU architecture. Rebuild an Intel binary:

@@ -328,14 +328,16 @@ func renderStaticHTML(root: BookmarkFolder, githubURL: String?) -> String {
         }
         header {
           display: flex;
-          align-items: end;
+          align-items: center;
           justify-content: space-between;
           gap: 24px;
-          padding-bottom: 24px;
           border-bottom: 1px solid var(--line);
         }
+        footer {
+            text-align: center;
+            padding-top: 4rem;
+        }
         h1 {
-          margin: 0 0 8px;
           font-size: 40px;
           line-height: 1.05;
           letter-spacing: 0;
@@ -354,6 +356,7 @@ func renderStaticHTML(root: BookmarkFolder, githubURL: String?) -> String {
           font: inherit;
           padding: 11px 12px;
           outline: none;
+          transition: all 0.3s ease;
         }
         .search:focus {
           border-color: var(--accent);
@@ -408,6 +411,7 @@ func renderStaticHTML(root: BookmarkFolder, githubURL: String?) -> String {
           color: inherit;
           padding: 11px;
           text-decoration: none;
+          transition: all 0.3s ease;
         }
         .bookmark-card:hover {
           border-color: var(--accent);
@@ -469,14 +473,16 @@ func renderStaticHTML(root: BookmarkFolder, githubURL: String?) -> String {
         <header>
           <div>
             <h1>Bookmarks</h1>
-            <p class="meta">\(total) links · generated \(htmlEscaped(generatedAt))</p>
           </div>
           <div class="header-actions">
-            <input class="search" type="search" placeholder="Search bookmarks" aria-label="Search bookmarks">
+            <input class="search" type="search" placeholder="Search bookmarks" aria-label="Search bookmarks" />
     \(renderGitHubLink(githubURL))
           </div>
         </header>
     \(renderFolder(root))
+        <footer>
+            <p class="meta">\(total) links · generated \(htmlEscaped(generatedAt))</p>
+        </footer>
       </main>
       <script>
         const search = document.querySelector('.search');

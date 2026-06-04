@@ -546,23 +546,47 @@ func runCommand(_ executable: String, _ arguments: [String], currentDirectory: S
     return (process.terminationStatus, output.trimmingCharacters(in: .whitespacesAndNewlines))
 }
 
-func copyHTMLDirectory(from source: String, to destination: String) {
+func copyDirectoryContents(from source: String, to destination: String) {
     do {
-        if FileManager.default.fileExists(atPath: destination) {
-            try FileManager.default.removeItem(atPath: destination)
+        try FileManager.default.createDirectory(atPath: destination, withIntermediateDirectories: true)
+        let items = try FileManager.default.contentsOfDirectory(atPath: source)
+
+        for item in items {
+            let sourcePath = "\(source)/\(item)"
+            let destinationPath = "\(destination)/\(item)"
+
+            if FileManager.default.fileExists(atPath: destinationPath) {
+                try FileManager.default.removeItem(atPath: destinationPath)
+            }
+            try FileManager.default.copyItem(atPath: sourcePath, toPath: destinationPath)
         }
-        try FileManager.default.copyItem(atPath: source, toPath: destination)
     } catch {
-        log("❌ 复制 .html 目录失败: \(error.localizedDescription)")
+        log("❌ 复制 .html 内容失败: \(error.localizedDescription)")
         exit(1)
     }
 }
 
-func publishHTMLToGHPages(projectDir: String, bookmarksDir: String, includeGitHubLink: Bool) {
-    let iconsDir = "\(projectDir)/icons"
-    generateStaticHTML(projectDir: projectDir, bookmarksDir: bookmarksDir, iconsDir: iconsDir, includeGitHubLink: includeGitHubLink)
+func cleanGHPagesWorktreeRoot(_ path: String) {
+    do {
+        let items = try FileManager.default.contentsOfDirectory(atPath: path)
+        for item in items where item != ".git" {
+            try FileManager.default.removeItem(atPath: "\(path)/\(item)")
+        }
+    } catch {
+        log("❌ 清理 gh-pages worktree 失败: \(error.localizedDescription)")
+        exit(1)
+    }
+}
 
+func publishHTMLToGHPages(projectDir: String) {
     let sourceHTMLDir = "\(projectDir)/.html"
+    let sourceIndexPath = "\(sourceHTMLDir)/index.html"
+    guard FileManager.default.fileExists(atPath: sourceIndexPath) else {
+        log("❌ 未找到静态页面: \(sourceIndexPath)")
+        log("请先运行 ./bkm --generate-html")
+        exit(1)
+    }
+
     let tempDir = "\(NSTemporaryDirectory())bookmarks-gh-pages-\(UUID().uuidString)"
     let branchCheck = runCommand("/usr/bin/git", ["rev-parse", "--verify", "gh-pages"], currentDirectory: projectDir)
     let hasBranch = branchCheck.status == 0
@@ -592,7 +616,8 @@ func publishHTMLToGHPages(projectDir: String, bookmarksDir: String, includeGitHu
         _ = runCommand("/usr/bin/git", ["rm", "-rf", "."], currentDirectory: tempDir)
     }
 
-    copyHTMLDirectory(from: sourceHTMLDir, to: "\(tempDir)/.html")
+    cleanGHPagesWorktreeRoot(tempDir)
+    copyDirectoryContents(from: sourceHTMLDir, to: tempDir)
     do {
         try "".write(toFile: "\(tempDir)/.nojekyll", atomically: true, encoding: .utf8)
     } catch {
@@ -600,9 +625,9 @@ func publishHTMLToGHPages(projectDir: String, bookmarksDir: String, includeGitHu
         exit(1)
     }
 
-    let addHTMLResult = runCommand("/usr/bin/git", ["add", "-f", ".nojekyll", ".html"], currentDirectory: tempDir)
+    let addHTMLResult = runCommand("/usr/bin/git", ["add", "-A", "-f", "."], currentDirectory: tempDir)
     guard addHTMLResult.status == 0 else {
-        log("❌ 暂存 .html 目录失败:\n\(addHTMLResult.output)")
+        log("❌ 暂存 gh-pages 静态资源失败:\n\(addHTMLResult.output)")
         exit(1)
     }
 
@@ -613,7 +638,7 @@ func publishHTMLToGHPages(projectDir: String, bookmarksDir: String, includeGitHu
     }
 
     if statusResult.output.isEmpty {
-        log("ℹ️  gh-pages 分支中的 .html 目录没有变化")
+        log("ℹ️  gh-pages 分支根目录中的静态资源没有变化")
         return
     }
 
@@ -623,7 +648,7 @@ func publishHTMLToGHPages(projectDir: String, bookmarksDir: String, includeGitHu
         exit(1)
     }
 
-    log("✅ 已提交 .html 目录到 gh-pages 分支")
+    log("✅ 已将 .html/ 内容提交到 gh-pages 分支根目录")
 }
 
 // 创建一个串行队列用于图标设置操作
@@ -779,7 +804,7 @@ func main() {
         Options:
           --set-icons          Set custom icons for .webloc files. This is the default behavior.
           --generate-html      Generate a static bookmark navigation page at .html/index.html.
-          --publish-gh-pages   Generate .html and commit it to the gh-pages branch.
+          --publish-gh-pages   Commit existing .html contents to the gh-pages branch root.
           --include-github-link
                                Include the current GitHub repository link in generated HTML.
         """)
@@ -818,7 +843,7 @@ func main() {
     }
 
     if arguments.contains(Command.publishGHPages.rawValue) {
-        publishHTMLToGHPages(projectDir: projectDir, bookmarksDir: bookmarksDir, includeGitHubLink: includeGitHubLink)
+        publishHTMLToGHPages(projectDir: projectDir)
         return
     }
 

@@ -142,7 +142,7 @@ chmod +x bkm
 # 生成静态导航页并显示当前 GitHub 仓库链接
 ./bkm --generate-html --include-github-link
 
-# 生成 .html 并提交到 gh-pages 分支
+# 将已有 .html 内容提交到 gh-pages 分支根目录
 # 命令也会在 gh-pages 分支写入 .nojekyll 以适配 GitHub Pages
 ./bkm --publish-gh-pages
 ```

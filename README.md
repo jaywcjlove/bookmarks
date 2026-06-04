@@ -142,7 +142,7 @@ Available command options:
 # Generate the static page and include the current GitHub repository link.
 ./bkm --generate-html --include-github-link
 
-# Generate .html and commit it to the gh-pages branch.
+# Commit existing .html contents to the gh-pages branch root.
 # The command also writes .nojekyll on gh-pages for GitHub Pages.
 ./bkm --publish-gh-pages
 ```

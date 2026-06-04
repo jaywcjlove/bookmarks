@@ -305,7 +305,7 @@ func renderStaticHTML(root: BookmarkFolder, githubURL: String?) -> String {
           :root {
             --bg: #171717;
             --text: #f2f2f0;
-            --muted: #a8aaa5;
+            --muted: #ffffff57;
             --line: #333633;
             --panel: #20211f;
             --accent: #2dd4bf;
@@ -318,11 +318,13 @@ func renderStaticHTML(root: BookmarkFolder, githubURL: String?) -> String {
           color: var(--text);
           font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
           line-height: 1.5;
+          font-size: 14px;
         }
         main {
           width: min(1160px, calc(100% - 32px));
           margin: 0 auto;
           padding: 40px 0 56px;
+          padding-bottom: 11rem;
         }
         header {
           display: flex;

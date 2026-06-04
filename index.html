@@ -41,14 +41,16 @@
     }
     header {
       display: flex;
-      align-items: end;
+      align-items: center;
       justify-content: space-between;
       gap: 24px;
-      padding-bottom: 24px;
       border-bottom: 1px solid var(--line);
     }
+    footer {
+        text-align: center;
+        padding-top: 4rem;
+    }
     h1 {
-      margin: 0 0 8px;
       font-size: 40px;
       line-height: 1.05;
       letter-spacing: 0;
@@ -67,6 +69,7 @@
       font: inherit;
       padding: 11px 12px;
       outline: none;
+      transition: all 0.3s ease;
     }
     .search:focus {
       border-color: var(--accent);
@@ -121,6 +124,7 @@
       color: inherit;
       padding: 11px;
       text-decoration: none;
+      transition: all 0.3s ease;
     }
     .bookmark-card:hover {
       border-color: var(--accent);
@@ -182,10 +186,9 @@
     <header>
       <div>
         <h1>Bookmarks</h1>
-        <p class="meta">85 links · generated 2026-06-04T14:07:43Z</p>
       </div>
       <div class="header-actions">
-        <input class="search" type="search" placeholder="Search bookmarks" aria-label="Search bookmarks">
+        <input class="search" type="search" placeholder="Search bookmarks" aria-label="Search bookmarks" />
       <a class="github-link" href="https://github.com/jaywcjlove/bookmarks" target="_blank" rel="noopener noreferrer" aria-label="Open GitHub repository">
         <svg aria-hidden="true" viewBox="0 0 16 16" width="18" height="18">
           <path fill="currentColor" d="M8 0C3.58 0 0 3.67 0 8.2c0 3.63 2.29 6.7 5.47 7.79.4.08.55-.18.55-.4 0-.2-.01-.86-.01-1.56-2.01.38-2.53-.5-2.69-.96-.09-.24-.48-.96-.82-1.15-.28-.15-.68-.52-.01-.53.63-.01 1.08.59 1.23.84.72 1.24 1.87.89 2.33.68.07-.53.28-.89.51-1.1-1.78-.21-3.64-.91-3.64-4.03 0-.89.31-1.62.82-2.19-.08-.21-.36-1.04.08-2.16 0 0 .67-.22 2.2.84A7.4 7.4 0 0 1 8 3.99c.68 0 1.36.09 2 .28 1.52-1.06 2.19-.84 2.19-.84.44 1.12.16 1.95.08 2.16.51.57.82 1.3.82 2.19 0 3.13-1.87 3.82-3.65 4.03.29.26.54.76.54 1.53 0 1.1-.01 1.99-.01 2.26 0 .22.15.48.55.4A8.1 8.1 0 0 0 16 8.2C16 3.67 12.42 0 8 0Z"/>
@@ -288,6 +291,13 @@
     <span class="bookmark-url">stackoverflow.com</span>
   </span>
 </a>
+<a class="bookmark-card" href="https://store.steampowered.com/" target="_blank" rel="noopener noreferrer" data-title="steam" data-url="https://store.steampowered.com/">
+  <span class="bookmark-icon has-image"><img src="icons/store.steampowered.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-content">
+    <span class="bookmark-title">Steam</span>
+    <span class="bookmark-url">store.steampowered.com</span>
+  </span>
+</a>
 <a class="bookmark-card" href="https://www.twitch.tv/" target="_blank" rel="noopener noreferrer" data-title="twitch" data-url="https://www.twitch.tv/">
   <span class="bookmark-icon has-image"><img src="icons/twitch.tv.png" alt="" loading="lazy"></span>
   <span class="bookmark-content">
@@ -309,11 +319,25 @@
     <span class="bookmark-url">toutiao.com</span>
   </span>
 </a>
+<a class="bookmark-card" href="https://www.cnblogs.com/" target="_blank" rel="noopener noreferrer" data-title="博客园" data-url="https://www.cnblogs.com/">
+  <span class="bookmark-icon has-image"><img src="icons/cnblogs.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-content">
+    <span class="bookmark-title">博客园</span>
+    <span class="bookmark-url">cnblogs.com</span>
+  </span>
+</a>
 <a class="bookmark-card" href="https://www.xiaohongshu.com/" target="_blank" rel="noopener noreferrer" data-title="小红书" data-url="https://www.xiaohongshu.com/">
   <span class="bookmark-icon has-image"><img src="icons/xiaohongshu.com.png" alt="" loading="lazy"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">小红书</span>
     <span class="bookmark-url">xiaohongshu.com</span>
+  </span>
+</a>
+<a class="bookmark-card" href="https://segmentfault.com/" target="_blank" rel="noopener noreferrer" data-title="思否" data-url="https://segmentfault.com/">
+  <span class="bookmark-icon has-image"><img src="icons/segmentfault.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-content">
+    <span class="bookmark-title">思否</span>
+    <span class="bookmark-url">segmentfault.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.autohome.com.cn/" target="_blank" rel="noopener noreferrer" data-title="汽车之家" data-url="https://www.autohome.com.cn/">
@@ -829,6 +853,9 @@
 </a>
   </div>
 </section>
+    <footer>
+        <p class="meta">88 links · generated 2026-06-04T14:48:05Z</p>
+    </footer>
   </main>
   <script>
     const search = document.querySelector('.search');

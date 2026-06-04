@@ -1,7 +1,4 @@
-npm-debug.log*
-lerna-debug.log
-yarn-error.log
-package-lock.json
+set_icons_*
 
 .DS_Store
 .cache

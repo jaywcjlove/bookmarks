@@ -188,7 +188,7 @@ func renderBookmarkCards(_ bookmarks: [Bookmark]) -> String {
 
         if let iconFileName = bookmark.iconFileName {
             iconMarkup = """
-              <span class="bookmark-icon has-image"><img src="icons/\(htmlEscaped(iconFileName))" alt="" loading="lazy"></span>
+              <span class="bookmark-icon has-image is-loading"><img src="icons/\(htmlEscaped(iconFileName))" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
             """
         } else {
             iconMarkup = """
@@ -429,6 +429,8 @@ func renderStaticHTML(root: BookmarkFolder, githubURL: String?) -> String {
         .bookmark-icon {
           display: grid;
           place-items: center;
+          position: relative;
+          overflow: hidden;
           width: 42px;
           height: 42px;
           border-radius: 8px;
@@ -440,12 +442,38 @@ func renderStaticHTML(root: BookmarkFolder, githubURL: String?) -> String {
           background: transparent;
           color: inherit;
         }
+        .bookmark-icon.has-image.is-loading:not(.is-loaded):not(.is-missing) {
+          background: color-mix(in srgb, var(--line) 46%, transparent);
+        }
+        .bookmark-icon.has-image.is-loading:not(.is-loaded):not(.is-missing)::after {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--muted) 12%, transparent), transparent);
+          transform: translateX(-100%);
+          animation: icon-loading 1.2s ease-in-out infinite;
+        }
         .bookmark-icon img {
           display: block;
+          position: relative;
+          z-index: 1;
           width: 34px;
           height: 34px;
           object-fit: contain;
           border-radius: 7px;
+          opacity: 0;
+          transition: opacity 0.18s ease;
+        }
+        .bookmark-icon.is-loaded img {
+          opacity: 1;
+        }
+        @keyframes icon-loading {
+          to { transform: translateX(100%); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .bookmark-icon.has-image::after {
+            animation: none;
+          }
         }
         .bookmark-content {
           min-width: 0;

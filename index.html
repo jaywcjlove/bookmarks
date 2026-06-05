@@ -139,6 +139,8 @@
     .bookmark-icon {
       display: grid;
       place-items: center;
+      position: relative;
+      overflow: hidden;
       width: 42px;
       height: 42px;
       border-radius: 8px;
@@ -150,12 +152,38 @@
       background: transparent;
       color: inherit;
     }
+    .bookmark-icon.has-image.is-loading:not(.is-loaded):not(.is-missing) {
+      background: color-mix(in srgb, var(--line) 46%, transparent);
+    }
+    .bookmark-icon.has-image.is-loading:not(.is-loaded):not(.is-missing)::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--muted) 12%, transparent), transparent);
+      transform: translateX(-100%);
+      animation: icon-loading 1.2s ease-in-out infinite;
+    }
     .bookmark-icon img {
       display: block;
+      position: relative;
+      z-index: 1;
       width: 34px;
       height: 34px;
       object-fit: contain;
       border-radius: 7px;
+      opacity: 0;
+      transition: opacity 0.18s ease;
+    }
+    .bookmark-icon.is-loaded img {
+      opacity: 1;
+    }
+    @keyframes icon-loading {
+      to { transform: translateX(100%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .bookmark-icon.has-image::after {
+        animation: none;
+      }
     }
     .bookmark-content {
       min-width: 0;
@@ -208,119 +236,119 @@
   <h2>Bookmarks</h2>
   <div class="bookmark-grid">
 <a class="bookmark-card" href="https://36kr.com/" target="_blank" rel="noopener noreferrer" data-title="36氪" data-url="https://36kr.com/">
-  <span class="bookmark-icon has-image"><img src="icons/36kr.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/36kr.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">36氪</span>
     <span class="bookmark-url">36kr.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.apple.com/" target="_blank" rel="noopener noreferrer" data-title="apple" data-url="https://www.apple.com/">
-  <span class="bookmark-icon has-image"><img src="icons/apple.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/apple.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Apple</span>
     <span class="bookmark-url">apple.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://discord.com/" target="_blank" rel="noopener noreferrer" data-title="discord" data-url="https://discord.com/">
-  <span class="bookmark-icon has-image"><img src="icons/discord.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/discord.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Discord</span>
     <span class="bookmark-url">discord.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://duckduckgo.com/" target="_blank" rel="noopener noreferrer" data-title="duckduckgo" data-url="https://duckduckgo.com/">
-  <span class="bookmark-icon has-image"><img src="icons/duckduckgo.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/duckduckgo.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">DuckDuckGo</span>
     <span class="bookmark-url">duckduckgo.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://fatbobman.com/" target="_blank" rel="noopener noreferrer" data-title="fatbobman&#39;s blog" data-url="https://fatbobman.com/">
-  <span class="bookmark-icon has-image"><img src="icons/fatbobman.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/fatbobman.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Fatbobman&#39;s Blog</span>
     <span class="bookmark-url">fatbobman.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://ifixit.com/" target="_blank" rel="noopener noreferrer" data-title="ifixit" data-url="https://ifixit.com/">
-  <span class="bookmark-icon has-image"><img src="icons/ifixit.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/ifixit.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">iFixit</span>
     <span class="bookmark-url">ifixit.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://medium.com/" target="_blank" rel="noopener noreferrer" data-title="medium" data-url="https://medium.com/">
-  <span class="bookmark-icon has-image"><img src="icons/medium.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/medium.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Medium</span>
     <span class="bookmark-url">medium.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.notion.com/" target="_blank" rel="noopener noreferrer" data-title="notion" data-url="https://www.notion.com/">
-  <span class="bookmark-icon has-image"><img src="icons/notion.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/notion.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Notion</span>
     <span class="bookmark-url">notion.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.reddit.com/r/macapps/" target="_blank" rel="noopener noreferrer" data-title="reddit" data-url="https://www.reddit.com/r/macapps/">
-  <span class="bookmark-icon has-image"><img src="icons/reddit.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/reddit.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Reddit</span>
     <span class="bookmark-url">reddit.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://slack.com/intl/zh-cn/" target="_blank" rel="noopener noreferrer" data-title="slack" data-url="https://slack.com/intl/zh-cn/">
-  <span class="bookmark-icon has-image"><img src="icons/slack.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/slack.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Slack</span>
     <span class="bookmark-url">slack.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://soundcloud.com/" target="_blank" rel="noopener noreferrer" data-title="soundcloud" data-url="https://soundcloud.com/">
-  <span class="bookmark-icon has-image"><img src="icons/soundcloud.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/soundcloud.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">SoundCloud</span>
     <span class="bookmark-url">soundcloud.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://store.steampowered.com/" target="_blank" rel="noopener noreferrer" data-title="steam" data-url="https://store.steampowered.com/">
-  <span class="bookmark-icon has-image"><img src="icons/store.steampowered.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/store.steampowered.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Steam</span>
     <span class="bookmark-url">store.steampowered.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.wikipedia.org/" target="_blank" rel="noopener noreferrer" data-title="wikipedia" data-url="https://www.wikipedia.org/">
-  <span class="bookmark-icon has-image"><img src="icons/wikipedia.org.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/wikipedia.org.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Wikipedia</span>
     <span class="bookmark-url">wikipedia.org</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.toutiao.com/" target="_blank" rel="noopener noreferrer" data-title="今日头条" data-url="https://www.toutiao.com/">
-  <span class="bookmark-icon has-image"><img src="icons/toutiao.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/toutiao.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">今日头条</span>
     <span class="bookmark-url">toutiao.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.autohome.com.cn/" target="_blank" rel="noopener noreferrer" data-title="汽车之家" data-url="https://www.autohome.com.cn/">
-  <span class="bookmark-icon has-image"><img src="icons/autohome.com.cn.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/autohome.com.cn.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">汽车之家</span>
     <span class="bookmark-url">autohome.com.cn</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.zhihu.com/" target="_blank" rel="noopener noreferrer" data-title="知乎" data-url="https://www.zhihu.com/">
-  <span class="bookmark-icon has-image"><img src="icons/zhihu.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/zhihu.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">知乎</span>
     <span class="bookmark-url">zhihu.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.douban.com/" target="_blank" rel="noopener noreferrer" data-title="豆瓣" data-url="https://www.douban.com/">
-  <span class="bookmark-icon has-image"><img src="icons/douban.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/douban.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">豆瓣</span>
     <span class="bookmark-url">douban.com</span>
@@ -332,91 +360,91 @@
   <h3>AI</h3>
   <div class="bookmark-grid">
 <a class="bookmark-card" href="https://chatgpt.com/" target="_blank" rel="noopener noreferrer" data-title="chatgpt" data-url="https://chatgpt.com/">
-  <span class="bookmark-icon has-image"><img src="icons/chatgpt.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/chatgpt.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">ChatGPT</span>
     <span class="bookmark-url">chatgpt.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://claude.ai/" target="_blank" rel="noopener noreferrer" data-title="claude" data-url="https://claude.ai/">
-  <span class="bookmark-icon has-image"><img src="icons/claude.ai.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/claude.ai.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Claude</span>
     <span class="bookmark-url">claude.ai</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://gemini.google.com/app" target="_blank" rel="noopener noreferrer" data-title="google gemini" data-url="https://gemini.google.com/app">
-  <span class="bookmark-icon has-image"><img src="icons/gemini.google.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/gemini.google.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Google Gemini</span>
     <span class="bookmark-url">gemini.google.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://grok.com/" target="_blank" rel="noopener noreferrer" data-title="grok" data-url="https://grok.com/">
-  <span class="bookmark-icon has-image"><img src="icons/grok.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/grok.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Grok</span>
     <span class="bookmark-url">grok.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.kimi.com/" target="_blank" rel="noopener noreferrer" data-title="kimi ai" data-url="https://www.kimi.com/">
-  <span class="bookmark-icon has-image"><img src="icons/kimi.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/kimi.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Kimi AI</span>
     <span class="bookmark-url">kimi.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://manus.im" target="_blank" rel="noopener noreferrer" data-title="manus" data-url="https://manus.im">
-  <span class="bookmark-icon has-image"><img src="icons/manus.im.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/manus.im.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Manus</span>
     <span class="bookmark-url">manus.im</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.meta.ai/" target="_blank" rel="noopener noreferrer" data-title="meta ai" data-url="https://www.meta.ai/">
-  <span class="bookmark-icon has-image"><img src="icons/meta.ai.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/meta.ai.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Meta AI</span>
     <span class="bookmark-url">meta.ai</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://ai.qq.com" target="_blank" rel="noopener noreferrer" data-title="元宝" data-url="https://ai.qq.com">
-  <span class="bookmark-icon has-image"><img src="icons/ai.qq.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/ai.qq.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">元宝</span>
     <span class="bookmark-url">ai.qq.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://xiaoyi.huawei.com" target="_blank" rel="noopener noreferrer" data-title="小艺" data-url="https://xiaoyi.huawei.com">
-  <span class="bookmark-icon has-image"><img src="icons/xiaoyi.huawei.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/xiaoyi.huawei.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">小艺</span>
     <span class="bookmark-url">xiaoyi.huawei.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.deepseek.com/" target="_blank" rel="noopener noreferrer" data-title="深度求索 deepseek" data-url="https://www.deepseek.com/">
-  <span class="bookmark-icon has-image"><img src="icons/deepseek.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/deepseek.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">深度求索 DeepSeek</span>
     <span class="bookmark-url">deepseek.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://yiyan.baidu.com" target="_blank" rel="noopener noreferrer" data-title="百度 ernie" data-url="https://yiyan.baidu.com">
-  <span class="bookmark-icon has-image"><img src="icons/yiyan.baidu.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/yiyan.baidu.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">百度 ERNIE</span>
     <span class="bookmark-url">yiyan.baidu.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.doubao.com" target="_blank" rel="noopener noreferrer" data-title="豆包" data-url="https://www.doubao.com">
-  <span class="bookmark-icon has-image"><img src="icons/doubao.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/doubao.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">豆包</span>
     <span class="bookmark-url">doubao.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://chat.qwen.ai" target="_blank" rel="noopener noreferrer" data-title="通义千问-qwen" data-url="https://chat.qwen.ai">
-  <span class="bookmark-icon has-image"><img src="icons/chat.qwen.ai.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/chat.qwen.ai.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">通义千问-Qwen</span>
     <span class="bookmark-url">chat.qwen.ai</span>
@@ -428,63 +456,63 @@
   <h3>Banking</h3>
   <div class="bookmark-grid">
 <a class="bookmark-card" href="https://www.citi.com/" target="_blank" rel="noopener noreferrer" data-title="citi" data-url="https://www.citi.com/">
-  <span class="bookmark-icon has-image"><img src="icons/citi.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/citi.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Citi</span>
     <span class="bookmark-url">citi.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.hsbc.com/" target="_blank" rel="noopener noreferrer" data-title="hsbc" data-url="https://www.hsbc.com/">
-  <span class="bookmark-icon has-image"><img src="icons/hsbc.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/hsbc.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">HSBC</span>
     <span class="bookmark-url">hsbc.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://link.com/" target="_blank" rel="noopener noreferrer" data-title="link" data-url="https://link.com/">
-  <span class="bookmark-icon has-image"><img src="icons/link.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/link.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Link</span>
     <span class="bookmark-url">link.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.paypal.com" target="_blank" rel="noopener noreferrer" data-title="paypal" data-url="https://www.paypal.com">
-  <span class="bookmark-icon has-image"><img src="icons/paypal.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/paypal.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">PayPal</span>
     <span class="bookmark-url">paypal.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://ramp.com/" target="_blank" rel="noopener noreferrer" data-title="ramp" data-url="https://ramp.com/">
-  <span class="bookmark-icon has-image"><img src="icons/ramp.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/ramp.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Ramp</span>
     <span class="bookmark-url">ramp.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://stripe.com/" target="_blank" rel="noopener noreferrer" data-title="stripe" data-url="https://stripe.com/">
-  <span class="bookmark-icon has-image"><img src="icons/stripe.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/stripe.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Stripe</span>
     <span class="bookmark-url">stripe.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://wise.com/" target="_blank" rel="noopener noreferrer" data-title="wise" data-url="https://wise.com/">
-  <span class="bookmark-icon has-image"><img src="icons/wise.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/wise.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Wise</span>
     <span class="bookmark-url">wise.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://bank.za.group" target="_blank" rel="noopener noreferrer" data-title="za bank" data-url="https://bank.za.group">
-  <span class="bookmark-icon has-image"><img src="icons/bank.za.group.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/bank.za.group.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">ZA Bank</span>
     <span class="bookmark-url">bank.za.group</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.bochk.com/sc/home.html" target="_blank" rel="noopener noreferrer" data-title="中国银行(香港)" data-url="https://www.bochk.com/sc/home.html">
-  <span class="bookmark-icon has-image"><img src="icons/bochk.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/bochk.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">中国银行(香港)</span>
     <span class="bookmark-url">bochk.com</span>
@@ -496,35 +524,35 @@
   <h3>Email</h3>
   <div class="bookmark-grid">
 <a class="bookmark-card" href="https://mail.163.com/" target="_blank" rel="noopener noreferrer" data-title="163网易邮箱" data-url="https://mail.163.com/">
-  <span class="bookmark-icon has-image"><img src="icons/mail.163.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/mail.163.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">163网易邮箱</span>
     <span class="bookmark-url">mail.163.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://mail.google.com/mail/u/0/#inbox" target="_blank" rel="noopener noreferrer" data-title="gmail" data-url="https://mail.google.com/mail/u/0/#inbox">
-  <span class="bookmark-icon has-image"><img src="icons/mail.google.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/mail.google.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Gmail</span>
     <span class="bookmark-url">mail.google.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://outlook.live.com/" target="_blank" rel="noopener noreferrer" data-title="outlook" data-url="https://outlook.live.com/">
-  <span class="bookmark-icon has-image"><img src="icons/outlook.live.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/outlook.live.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Outlook</span>
     <span class="bookmark-url">outlook.live.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://mail.qq.com/" target="_blank" rel="noopener noreferrer" data-title="qq邮箱" data-url="https://mail.qq.com/">
-  <span class="bookmark-icon has-image"><img src="icons/mail.qq.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/mail.qq.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">QQ邮箱</span>
     <span class="bookmark-url">mail.qq.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://mail.aliyun.com/" target="_blank" rel="noopener noreferrer" data-title="阿里邮箱" data-url="https://mail.aliyun.com/">
-  <span class="bookmark-icon has-image"><img src="icons/mail.aliyun.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/mail.aliyun.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">阿里邮箱</span>
     <span class="bookmark-url">mail.aliyun.com</span>
@@ -536,56 +564,56 @@
   <h3>IT</h3>
   <div class="bookmark-grid">
 <a class="bookmark-card" href="https://www.csdn.net/" target="_blank" rel="noopener noreferrer" data-title="csdn" data-url="https://www.csdn.net/">
-  <span class="bookmark-icon has-image"><img src="icons/csdn.net.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/csdn.net.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">CSDN</span>
     <span class="bookmark-url">csdn.net</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://github.com/" target="_blank" rel="noopener noreferrer" data-title="github" data-url="https://github.com/">
-  <span class="bookmark-icon has-image"><img src="icons/github.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/github.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">GitHub</span>
     <span class="bookmark-url">github.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://stackoverflow.com/questions" target="_blank" rel="noopener noreferrer" data-title="stack overflow" data-url="https://stackoverflow.com/questions">
-  <span class="bookmark-icon has-image"><img src="icons/stackoverflow.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/stackoverflow.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Stack Overflow</span>
     <span class="bookmark-url">stackoverflow.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.cnblogs.com/" target="_blank" rel="noopener noreferrer" data-title="博客园" data-url="https://www.cnblogs.com/">
-  <span class="bookmark-icon has-image"><img src="icons/cnblogs.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/cnblogs.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">博客园</span>
     <span class="bookmark-url">cnblogs.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.feng.com/" target="_blank" rel="noopener noreferrer" data-title="威锋" data-url="https://www.feng.com/">
-  <span class="bookmark-icon has-image"><img src="icons/feng.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/feng.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">威锋</span>
     <span class="bookmark-url">feng.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://segmentfault.com/" target="_blank" rel="noopener noreferrer" data-title="思否" data-url="https://segmentfault.com/">
-  <span class="bookmark-icon has-image"><img src="icons/segmentfault.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/segmentfault.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">思否</span>
     <span class="bookmark-url">segmentfault.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://weekly.tw93.fun/" target="_blank" rel="noopener noreferrer" data-title="潮流周刊" data-url="https://weekly.tw93.fun/">
-  <span class="bookmark-icon has-image"><img src="icons/weekly.tw93.fun.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/weekly.tw93.fun.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">潮流周刊</span>
     <span class="bookmark-url">weekly.tw93.fun</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.ruanyifeng.com/blog/" target="_blank" rel="noopener noreferrer" data-title="阮一峰的网络日志" data-url="https://www.ruanyifeng.com/blog/">
-  <span class="bookmark-icon has-image"><img src="icons/ruanyifeng.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/ruanyifeng.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">阮一峰的网络日志</span>
     <span class="bookmark-url">ruanyifeng.com</span>
@@ -597,119 +625,119 @@
   <h3>Music &amp; Video</h3>
   <div class="bookmark-grid">
 <a class="bookmark-card" href="https://music.apple.com/us/new" target="_blank" rel="noopener noreferrer" data-title="‎apple music" data-url="https://music.apple.com/us/new">
-  <span class="bookmark-icon has-image"><img src="icons/music.apple.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/music.apple.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">‎Apple Music</span>
     <span class="bookmark-url">music.apple.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.netflix.com/nl-en/" target="_blank" rel="noopener noreferrer" data-title="netflix" data-url="https://www.netflix.com/nl-en/">
-  <span class="bookmark-icon has-image"><img src="icons/netflix.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/netflix.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Netflix</span>
     <span class="bookmark-url">netflix.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://y.qq.com/" target="_blank" rel="noopener noreferrer" data-title="qq音乐" data-url="https://y.qq.com/">
-  <span class="bookmark-icon has-image"><img src="icons/y.qq.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/y.qq.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">QQ音乐</span>
     <span class="bookmark-url">y.qq.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://spotify.com/" target="_blank" rel="noopener noreferrer" data-title="spotify" data-url="https://spotify.com/">
-  <span class="bookmark-icon has-image"><img src="icons/spotify.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/spotify.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Spotify</span>
     <span class="bookmark-url">spotify.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.tiktok.com/" target="_blank" rel="noopener noreferrer" data-title="tiktok" data-url="https://www.tiktok.com/">
-  <span class="bookmark-icon has-image"><img src="icons/tiktok.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/tiktok.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">TikTok</span>
     <span class="bookmark-url">tiktok.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.twitch.tv/" target="_blank" rel="noopener noreferrer" data-title="twitch" data-url="https://www.twitch.tv/">
-  <span class="bookmark-icon has-image"><img src="icons/twitch.tv.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/twitch.tv.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Twitch</span>
     <span class="bookmark-url">twitch.tv</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://music.youtube.com/" target="_blank" rel="noopener noreferrer" data-title="youtube music" data-url="https://music.youtube.com/">
-  <span class="bookmark-icon has-image"><img src="icons/music.youtube.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/music.youtube.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">YouTube Music</span>
     <span class="bookmark-url">music.youtube.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" data-title="youtube" data-url="https://www.youtube.com/">
-  <span class="bookmark-icon has-image"><img src="icons/youtube.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/youtube.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">YouTube</span>
     <span class="bookmark-url">youtube.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.youku.com/ku/webhome" target="_blank" rel="noopener noreferrer" data-title="优酷" data-url="https://www.youku.com/ku/webhome">
-  <span class="bookmark-icon has-image"><img src="icons/youku.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/youku.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">优酷</span>
     <span class="bookmark-url">youku.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://music.taihe.com/" target="_blank" rel="noopener noreferrer" data-title="千千音乐" data-url="https://music.taihe.com/">
-  <span class="bookmark-icon has-image"><img src="icons/music.taihe.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/music.taihe.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">千千音乐</span>
     <span class="bookmark-url">music.taihe.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.bilibili.com/" target="_blank" rel="noopener noreferrer" data-title="哔哩哔哩" data-url="https://www.bilibili.com/">
-  <span class="bookmark-icon has-image"><img src="icons/bilibili.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/bilibili.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">哔哩哔哩</span>
     <span class="bookmark-url">bilibili.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.xiaohongshu.com/" target="_blank" rel="noopener noreferrer" data-title="小红书" data-url="https://www.xiaohongshu.com/">
-  <span class="bookmark-icon has-image"><img src="icons/xiaohongshu.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/xiaohongshu.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">小红书</span>
     <span class="bookmark-url">xiaohongshu.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://tv.sohu.com/" target="_blank" rel="noopener noreferrer" data-title="搜狐视频" data-url="https://tv.sohu.com/">
-  <span class="bookmark-icon has-image"><img src="icons/tv.sohu.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/tv.sohu.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">搜狐视频</span>
     <span class="bookmark-url">tv.sohu.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.iqiyi.com/" target="_blank" rel="noopener noreferrer" data-title="爱奇艺 iqiyi" data-url="https://www.iqiyi.com/">
-  <span class="bookmark-icon has-image"><img src="icons/iqiyi.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/iqiyi.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">爱奇艺 iQIYI</span>
     <span class="bookmark-url">iqiyi.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://music.163.com/" target="_blank" rel="noopener noreferrer" data-title="网易云音乐" data-url="https://music.163.com/">
-  <span class="bookmark-icon has-image"><img src="icons/music.163.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/music.163.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">网易云音乐</span>
     <span class="bookmark-url">music.163.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://v.qq.com/" target="_blank" rel="noopener noreferrer" data-title="腾讯视频" data-url="https://v.qq.com/">
-  <span class="bookmark-icon has-image"><img src="icons/v.qq.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/v.qq.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">腾讯视频</span>
     <span class="bookmark-url">v.qq.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.kugou.com/" target="_blank" rel="noopener noreferrer" data-title="酷狗音乐" data-url="https://www.kugou.com/">
-  <span class="bookmark-icon has-image"><img src="icons/kugou.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/kugou.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">酷狗音乐</span>
     <span class="bookmark-url">kugou.com</span>
@@ -721,56 +749,56 @@
   <h3>Search Engines</h3>
   <div class="bookmark-grid">
 <a class="bookmark-card" href="https://www.so.com/" target="_blank" rel="noopener noreferrer" data-title="360搜索" data-url="https://www.so.com/">
-  <span class="bookmark-icon has-image"><img src="icons/so.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/so.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">360搜索</span>
     <span class="bookmark-url">so.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.google.com/" target="_blank" rel="noopener noreferrer" data-title="google" data-url="https://www.google.com/">
-  <span class="bookmark-icon has-image"><img src="icons/google.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/google.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Google</span>
     <span class="bookmark-url">google.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.bing.com/" target="_blank" rel="noopener noreferrer" data-title="microsoft bing" data-url="https://www.bing.com/">
-  <span class="bookmark-icon has-image"><img src="icons/bing.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/bing.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Microsoft Bing</span>
     <span class="bookmark-url">bing.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.msn.com" target="_blank" rel="noopener noreferrer" data-title="msn" data-url="https://www.msn.com">
-  <span class="bookmark-icon has-image"><img src="icons/msn.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/msn.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">MSN</span>
     <span class="bookmark-url">msn.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.yahoo.com/" target="_blank" rel="noopener noreferrer" data-title="yahoo" data-url="https://www.yahoo.com/">
-  <span class="bookmark-icon has-image"><img src="icons/yahoo.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/yahoo.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Yahoo</span>
     <span class="bookmark-url">yahoo.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://yandex.com/" target="_blank" rel="noopener noreferrer" data-title="yandex" data-url="https://yandex.com/">
-  <span class="bookmark-icon has-image"><img src="icons/yandex.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/yandex.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Yandex</span>
     <span class="bookmark-url">yandex.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.sogou.com/" target="_blank" rel="noopener noreferrer" data-title="搜狗搜索" data-url="https://www.sogou.com/">
-  <span class="bookmark-icon has-image"><img src="icons/sogou.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/sogou.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">搜狗搜索</span>
     <span class="bookmark-url">sogou.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.baidu.com/" target="_blank" rel="noopener noreferrer" data-title="百度" data-url="https://www.baidu.com/">
-  <span class="bookmark-icon has-image"><img src="icons/baidu.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/baidu.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">百度</span>
     <span class="bookmark-url">baidu.com</span>
@@ -782,49 +810,49 @@
   <h3>Shopping</h3>
   <div class="bookmark-grid">
 <a class="bookmark-card" href="https://www.amazon.com/" target="_blank" rel="noopener noreferrer" data-title="amazon" data-url="https://www.amazon.com/">
-  <span class="bookmark-icon has-image"><img src="icons/amazon.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/amazon.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Amazon</span>
     <span class="bookmark-url">amazon.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.ebay.com/" target="_blank" rel="noopener noreferrer" data-title="ebay" data-url="https://www.ebay.com/">
-  <span class="bookmark-icon has-image"><img src="icons/ebay.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/ebay.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">eBay</span>
     <span class="bookmark-url">ebay.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.jd.com/" target="_blank" rel="noopener noreferrer" data-title="京东(jd.com)" data-url="https://www.jd.com/">
-  <span class="bookmark-icon has-image"><img src="icons/jd.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/jd.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">京东(JD.COM)</span>
     <span class="bookmark-url">jd.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.mi.com/" target="_blank" rel="noopener noreferrer" data-title="小米" data-url="https://www.mi.com/">
-  <span class="bookmark-icon has-image"><img src="icons/mi.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/mi.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">小米</span>
     <span class="bookmark-url">mi.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.dangdang.com/" target="_blank" rel="noopener noreferrer" data-title="当当网" data-url="https://www.dangdang.com/">
-  <span class="bookmark-icon has-image"><img src="icons/dangdang.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/dangdang.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">当当网</span>
     <span class="bookmark-url">dangdang.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.taobao.com/" target="_blank" rel="noopener noreferrer" data-title="淘宝" data-url="https://www.taobao.com/">
-  <span class="bookmark-icon has-image"><img src="icons/taobao.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/taobao.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">淘宝</span>
     <span class="bookmark-url">taobao.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.goofish.com/" target="_blank" rel="noopener noreferrer" data-title="闲鱼" data-url="https://www.goofish.com/">
-  <span class="bookmark-icon has-image"><img src="icons/goofish.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/goofish.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">闲鱼</span>
     <span class="bookmark-url">goofish.com</span>
@@ -836,70 +864,70 @@
   <h3>Social Media</h3>
   <div class="bookmark-grid">
 <a class="bookmark-card" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" data-title="facebook" data-url="https://www.facebook.com/">
-  <span class="bookmark-icon has-image"><img src="icons/facebook.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/facebook.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Facebook</span>
     <span class="bookmark-url">facebook.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" data-title="instagram" data-url="https://www.instagram.com/">
-  <span class="bookmark-icon has-image"><img src="icons/instagram.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/instagram.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Instagram</span>
     <span class="bookmark-url">instagram.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer" data-title="linkedin" data-url="https://www.linkedin.com/">
-  <span class="bookmark-icon has-image"><img src="icons/linkedin.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/linkedin.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Linkedin</span>
     <span class="bookmark-url">linkedin.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.pinterest.com/" target="_blank" rel="noopener noreferrer" data-title="pinterest" data-url="https://www.pinterest.com/">
-  <span class="bookmark-icon has-image"><img src="icons/pinterest.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/pinterest.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Pinterest</span>
     <span class="bookmark-url">pinterest.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.snapchat.com/" target="_blank" rel="noopener noreferrer" data-title="snapchat" data-url="https://www.snapchat.com/">
-  <span class="bookmark-icon has-image"><img src="icons/snapchat.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/snapchat.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Snapchat</span>
     <span class="bookmark-url">snapchat.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.threads.com/" target="_blank" rel="noopener noreferrer" data-title="threads" data-url="https://www.threads.com/">
-  <span class="bookmark-icon has-image"><img src="icons/threads.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/threads.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Threads</span>
     <span class="bookmark-url">threads.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.tumblr.com/wjiang" target="_blank" rel="noopener noreferrer" data-title="tumblr" data-url="https://www.tumblr.com/wjiang">
-  <span class="bookmark-icon has-image"><img src="icons/tumblr.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/tumblr.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">Tumblr</span>
     <span class="bookmark-url">tumblr.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://www.v2ex.com/" target="_blank" rel="noopener noreferrer" data-title="v2ex" data-url="https://www.v2ex.com/">
-  <span class="bookmark-icon has-image"><img src="icons/v2ex.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/v2ex.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">V2EX</span>
     <span class="bookmark-url">v2ex.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://x.com/jaywcjlove" target="_blank" rel="noopener noreferrer" data-title="x(twitter)" data-url="https://x.com/jaywcjlove">
-  <span class="bookmark-icon has-image"><img src="icons/x.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/x.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">X(Twitter)</span>
     <span class="bookmark-url">x.com</span>
   </span>
 </a>
 <a class="bookmark-card" href="https://weibo.com/" target="_blank" rel="noopener noreferrer" data-title="微博" data-url="https://weibo.com/">
-  <span class="bookmark-icon has-image"><img src="icons/weibo.com.png" alt="" loading="lazy"></span>
+  <span class="bookmark-icon has-image is-loading"><img src="icons/weibo.com.png" alt="" loading="lazy" onload="this.parentElement.classList.add('is-loaded')" onerror="this.parentElement.classList.add('is-missing')"></span>
   <span class="bookmark-content">
     <span class="bookmark-title">微博</span>
     <span class="bookmark-url">weibo.com</span>
@@ -908,7 +936,7 @@
   </div>
 </section>
     <footer>
-        <p class="meta">94 links · generated 2026-06-05T10:14:16Z</p>
+        <p class="meta">94 links · generated 2026-06-05T13:19:44Z</p>
     </footer>
   </main>
   <script>

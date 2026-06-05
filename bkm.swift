@@ -342,7 +342,6 @@ func renderStaticHTML(root: BookmarkFolder, githubURL: String?) -> String {
           align-items: center;
           justify-content: space-between;
           gap: 24px;
-          border-bottom: 1px solid var(--line);
         }
         footer {
             text-align: center;

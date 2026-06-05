@@ -416,7 +416,6 @@ func renderStaticHTML(root: BookmarkFolder, githubURL: String?) -> String {
           gap: 12px;
           align-items: center;
           min-height: 66px;
-          border: 1px solid var(--line);
           border-radius: 8px;
           background: var(--panel);
           color: inherit;
@@ -425,7 +424,7 @@ func renderStaticHTML(root: BookmarkFolder, githubURL: String?) -> String {
           transition: all 0.3s ease;
         }
         .bookmark-card:hover {
-          border-color: var(--accent);
+          background: var(--line);
         }
         .bookmark-icon {
           display: grid;

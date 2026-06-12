@@ -209,14 +209,18 @@ func renderBookmarkCards(_ bookmarks: [Bookmark]) -> String {
 }
 
 func renderFolder(_ folder: BookmarkFolder, level: Int = 0) -> String {
-    let headingTag = min(level + 2, 6)
+    let headingMarkup: String
+    if level == 0 {
+        headingMarkup = ""
+    } else {
+        let headingTag = min(level + 2, 6)
+        headingMarkup = "  <h\(headingTag)>\(htmlEscaped(folder.name))</h\(headingTag)>\n"
+    }
     var sections: [String] = []
-
     if !folder.bookmarks.isEmpty {
         sections.append("""
         <section class="bookmark-section">
-          <h\(headingTag)>\(htmlEscaped(folder.name))</h\(headingTag)>
-          <div class="bookmark-grid">
+        \(headingMarkup)<div class="bookmark-grid">
         \(renderBookmarkCards(folder.bookmarks))
           </div>
         </section>

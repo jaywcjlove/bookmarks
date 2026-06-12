@@ -47,6 +47,8 @@ Menuist 书签
 [![Buy me a coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-ffdd00?logo=buy-me-a-coffee&logoColor=black)](https://jaywcjlove.github.io/#/sponsor)
 [![Follow On X](https://img.shields.io/badge/Follow%20on%20X-333333?logo=x&logoColor=white)](https://x.com/jaywcjlove)
 
+![Bookmark](./assets/bookmark.png)
+
 本项目提供了一份按目录组织的书签数据，并内置 `bkm` 命令，可将 [`bookmarks`](./bookmarks/) 目录生成静态导航网站。它也可以配合 [Menuist](https://github.com/jaywcjlove/rightmenu-master) v4.1+ 使用，只需将 `bookmarks` 文件夹添加到 Menuist 的`常用目录`中，即可快速打开常用网站。
 
 ![Menuist Screenshots](./assets/menuist-screenshots.png)
